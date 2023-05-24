@@ -1,11 +1,937 @@
 ---
-title: "affectiveriskperceptionnetworks"
+title: "Affective Risk Perception Networks"
+author: "Jan-Erik Johanson, Alisa Puustinen & Oliver Saal"
+date: last-modified
+date-format: long
+editor: visual
+editor_options: 
+  chunk_output_type: console
 ---
 
-## Quarto
+```{r article-setup, include=FALSE}
+# Clear environment and save parameters to avoid clashes with previous work
+rm(list=ls())
+resetpar <- par(no.readonly = TRUE)
+# Setup article work directories and libraries
+workdir <- "C:/Users/olive/RPROJS/papers/affectiveriskperceptionnetworks"
+packages <- c("tidyverse", "naniar", "knitr", "ggstatsplot", "bootnet", "ppcor", "smacof", "qgraph", "NetworkComparisonTest")
+lapply(packages, library, character.only=TRUE)
+setwd(workdir)
+```
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+# Introduction {#sec-introduction}
+
+# Materials and Methods {#sec-materialsandmethods}
+
+## Materials {#sec-materials}
+
+### Data Collection {#sec-datacollection}
+
+```{r data-import}
+# Import raw data
+rawdata <- tibble(read.csv2("_LOCAL/input/emergencyservicesattitudes2023.csv"))
+```
+
+We used the Finnish Emergency Services Attitudes 2023 material, consisting of N = 3055 survey respondents. The survey was collected between 17 January and 2 February 2023 as an on-line panel study, with sampling corresponding to central geographical, gender, and age distributions of the mainland Finnish population aged 18-79 years. Participation was voluntary and informed consent was retrieved.
+
+### Dependent Variables {#sec-dependentvariables}
+
+In the survey, respondents were asked to gauge the probability that they would encounter any of fourteen listed risks or threats in their personal lives. The risks are listed below, with short-hand names in brackets.
+
+-   "Extreme weather phenomena (flood, drought, storm etc.)" \[Weather\]
+-   "Traffic accident" \[Traffic\]
+-   "Fire" \[Fire\]
+-   "Nuclear power plant disaster" \[Nuclear\]
+-   "Workplace accident" \[Work\]
+-   "Leisure-time accident (at home/at hobbies etc.)" \[Leisure\]
+-   "Attack with weapons directed at the Finnish state" \[War\]
+-   "Great environmental accident, such as an oil catastrophe" \[Environmental\]
+-   "Dangerous transmittable disease, pandemic" \[Pandemic\]
+-   "Illness, severely falling ill (e.g., life-threatening cancer)" \[Illness\]
+-   "Act of violence" \[Violence\]
+-   "Operational failure directed at e.g., electrical, water, or food supply, information traffic or the informational system" \[Operational\]
+-   "Influencing through information, fake news, other so-called hybrid threats" \[Hybrid\]
+-   "Growth of tensions between social groups, polarization" \[Polarization\]
+
+For each variable, respondents judged their perceived subjective probability on a four-point scale as *very probable*, *somewhat probable*, *somewhat improbable*, *very improbable* and *cannot say*. These variables are later referred to as *risk perception variables*. Excluding the uncertain responses as missing values, the distributions are presented in @fig-dependents.
 
 ```{r}
-1 + 1
+#| label: fig-dependents
+#| fig-cap: "Distributions of risk perception variables"
+#| fig-subcap: 
+#| -  Weather
+#| -  Traffic
+#| -  Fire
+#| -  Nuclear
+#| -  Work
+#| -  Leisure
+#| -  War
+#| -  Environmental
+#| -  Pandemic
+#| -  Illness
+#| -  Violence
+#| -  Operational
+#| -  Hybrid
+#| -  Polarization
+#| layout-ncol: 3
+
+data <- rawdata %>%
+  dplyr::select(question_3_row_1:question_3_row_14)
+
+data <- data %>%
+  rename(Weather = question_3_row_1,
+         Traffic = question_3_row_2,
+         Fire = question_3_row_3,
+         Nuclear = question_3_row_4,
+         Work = question_3_row_5,
+         Leisure = question_3_row_6,
+         War = question_3_row_7,
+         Environmental = question_3_row_8,
+         Pandemic = question_3_row_9,
+         Illness = question_3_row_10,
+         Violence = question_3_row_11,
+         Operational = question_3_row_12,
+         Hybrid = question_3_row_13,
+         Polarization = question_3_row_14)
+
+data <- replace_with_na_all(
+  data,
+  condition = ~.x == 5)
+
+ggplot(data) + geom_bar(aes(x = Weather)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Traffic)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Fire)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Nuclear)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Work)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Leisure)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = War)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Environmental)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Pandemic)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Illness)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Violence)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Operational)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Hybrid)) + coord_cartesian(ylim=c(0,3055))
+ggplot(data) + geom_bar(aes(x = Polarization)) + coord_cartesian(ylim=c(0,3055))
 ```
+
+The risks judged to be most likely on average were pandemics, illnesses, and hybrid threats. The least likely experiences were nuclear power plant disasters, wars against Finland, and workplace accidents. Judging from missing values, respondents were most certain about the probability of experiencing extreme weather phenomena, and least certain about workplace accidents (@fig-na-analysis).
+
+```{r}
+#| label: fig-na-analysis
+#| fig-cap: "Missing values by variable"
+
+vis_miss(data)
+```
+
+### Control Variables {#sec-controlvariables}
+
+We used three social control variables and three substantive control variables:
+
+-   Gender
+-   Age
+-   Degree of urbanisation
+-   Direct experience of fire
+-   Near miss-experience of fire
+-   Emergency services employment
+
+```{r descriptives-recoding}
+# Recode age, gender, and municipality non-destructively
+data <- rawdata %>%
+  dplyr::select(question_1, question_2, question_38) %>%
+  bind_cols(data, .)
+data <- data %>%
+  rename(Gender = question_1,
+         Age = question_2,
+         Municipality = question_38)
+
+data$Gender <- case_match(
+  data$Gender,
+  1 ~ 1,
+  2 ~ 2,
+  c(3, 4) ~ NA,
+  .default = NA
+)
+
+# Recode substantive variables non-destructively
+data <- rawdata %>%
+  dplyr::select(question_39_row_1:question_41_row_1) %>%
+  bind_cols(data, .)
+data <- data %>%
+  rename(Direct = question_39_row_1,
+         Near.Miss = question_40,
+         EMS = question_41_row_1)
+data$Direct <- case_match(
+  data$Direct,
+  1 ~ 1,
+  2 ~ 0,
+  3 ~ NA,
+  .default = NA
+)
+data$Near.Miss <- case_match(
+  data$Near.Miss,
+  1 ~ 1,
+  2 ~ 0,
+  3 ~ NA,
+  .default = NA
+)
+data$EMS <- case_match(
+  data$EMS,
+  1 ~ 1,
+  2 ~ 0,
+  3 ~ NA,
+  .default = NA
+)
+
+# Create urbanisation variable based on csv list from Statistics Finland
+urbtable <- tibble(
+  read.csv2(
+    "_LOCAL/input/urbanisationdegreetable.csv",
+    skip = 3,
+    header = FALSE,
+    col.names = c("statmuncode","muncode","munname","urbcode","urbname")
+  )
+)
+
+urbtable <- urbtable %>%
+  mutate(
+    across(
+      everything(),
+      ~gsub("'", "", .x, useBytes=TRUE)
+    )
+  )
+
+code1mun <- urbtable %>%
+  filter(urbcode == 1) %>%
+  dplyr::select(muncode) %>%
+  na.omit()
+code1mun <- as.numeric(
+  as.vector(code1mun$muncode)
+)
+
+code2mun <- urbtable %>%
+  filter(urbcode == 2) %>%
+  dplyr::select(muncode) %>%
+  na.omit()
+code2mun <- as.numeric(
+  as.vector(code2mun$muncode)
+)
+
+code3mun <- urbtable %>%
+  filter(urbcode == 3) %>%
+  dplyr::select(muncode) %>%
+  na.omit()
+code3mun <- as.numeric(
+  as.vector(code3mun$muncode)
+)
+
+data$Municipality <- case_match(
+  data$Municipality,
+  code1mun ~ 1,
+  code2mun ~ 2,
+  code3mun ~ 3,
+  .default = NA
+)
+
+data <- data %>%
+  rename(Urbanisation = Municipality)
+```
+
+@fig-descriptives shows the gender, age, and population density distributions of the sample. The gender division matches the registered population structure in sex in 2022, but young people are under-represented by approximately ten percentage points as compared to the population [@statisticsfinland2023a]. This under-representation is spread throughout the other four categories, having 2-3 percentage points more representation than the population structure per category. The urbanisation degree is not directly comparable, but the urban-rural division matches up approximately with the cumulative percentages of urban vs. semi-urban and rural in our sample, suggesting equal representation.
+
+```{r}
+#| label: fig-descriptives
+#| fig-cap: "Descriptive Statistics of Sample"
+#| fig-subcap: 
+#|   - "Gender"
+#|   - "Age"
+#|   - "Urbanisation"
+#| layout: [[1, 1], [1, -1]]
+
+printdata <- tibble(
+    "Gender" = factor(
+      data$Gender,
+      levels = c(1:2),
+      labels = c("Female","Male")
+    ),
+    "Age" = factor(
+      data$Age,
+      levels = c(1:5),
+      labels = c("< 30 years",
+                 "31-40 years old",
+                 "41-50 years old",
+                 "51-64 years old",
+                 "65+ years old")
+    ),
+    "Urbanisation" = factor(
+      data$Urbanisation,
+      levels = c(1:3),
+      labels = c("Urban",
+                 "Semi-Urban",
+                 "Rural")
+    )
+  )
+
+ggplot(data = printdata) +
+  geom_bar(aes(x = Gender), na.rm = TRUE)
+ggplot(data = printdata) + 
+  geom_bar(aes(x = Age), na.rm = TRUE)
+ggplot(data = printdata) +
+  geom_bar(aes(x = Urbanisation), na.rm = TRUE)
+```
+
+We dichotomised gender to female vs. male because of low response rates among non-binary genders. We measured age on a five-point scale, starting from below 30 years of age and increasing to above 65 years of age, as presented in @fig-descriptives-2.
+
+We recoded respondent home municipality into degree of urbanisation, following the national classification for grouping of municipalities [@statisticsfinland2023]. The survey asked for two municipalities which no longer exist[^1], which were recoded into their corresponding new municipalities and urbanisation degree categories. The results are presented in @fig-descriptives-3.
+
+[^1]: Valtimo was incorporated into Nurmes in 2020, and Honkajoki into Kankaanpää in 2021, but both have erroneously been included in the 2023 survey.
+
+Respondents were asked whether they had had a direct experience of a fire in the past twelve months. They were similarly asked whether they had experienced a near-miss situation, i.e., a scenario that could have ended in a fire but did not. Finally, the respondents were asked whether they work in the emergency services in any capacity. These three variables constitute our substantive control variables, and operationalise three distinct hypotheses (see SECTION later) regarding the network structure. Their descriptive statistics are presented in @fig-substantive-desc.
+
+```{r}
+#| label: fig-substantive-desc
+#| fig-cap: "Substantive Control Variables"
+#| fig-subcap: 
+#|   - "Direct Experience of Fire"
+#|   - "Near-Miss Experience of Fire"
+#|   - "Emergency Services Employment"
+#| layout: [[1, 1], [1, -1]]
+#| cache: true
+
+# TODO: Redo like in fig-descriptives.
+subsdata <- tibble(
+    "Direct" = factor(
+      data$Direct,
+      levels = c(0:1),
+      labels = c("No", "Yes")
+    ),
+    "Near.Miss" = factor(
+      data$Near.Miss,
+      levels = c(0:1),
+      labels = c("No", "Yes")
+    ),
+    "EMS" = factor(
+      data$EMS,
+      levels = c(0:1),
+      labels = c("No", "Yes")
+    )
+  )
+
+printdata <- bind_cols(printdata, subsdata)
+
+ggbarstats(printdata, x = Gender, y = Direct, bf.message = FALSE)
+ggbarstats(printdata, x = Gender, y = Near.Miss, bf.message = FALSE)
+ggbarstats(printdata, x = Gender, y = EMS, bf.message = FALSE)
+```
+
+Logit regressions of the control variables on the substantive variables reveal that the substantive variables vary significantly by all control variables. The analysis thus is unable to distinguish between spurious effects, as there is as of yet no way to control for third variable effects in Gaussian graphical modelling. (THIS MAY BE REMOVED, IS IT NECESSARY?)
+
+```{r}
+#| label: fig-logistic-regs
+#| fig-cap: "Logit regression models of control variables regressed on the substantive control variables"
+#| fig-subcap: 
+#|   - "Direct Experience of Fire"
+#|   - "Near-Miss Experience of Fire"
+#|   - "Emergency Services Employment"
+#| layout: [[1, 1], [1, -1]]
+#| cache: true
+
+# Pseudo R2 function retrieved with slight modifications from Field, Miles & Field, 2012: 334
+logitmodelstats <- function(model) {
+  dev <- model$deviance
+  null_dev <- model$null.deviance
+  N <- length(model$fitted.values)
+  
+  chisq_q <- null_dev - dev
+  chisq_df <- model$df.null - model$df.residual
+  
+  R_l <- 1 - dev/null_dev
+  R_cs <- 1 - exp(-(null_dev/dev)/N)
+  R_n <- R_cs / (1 - (exp(-(null_dev/dev)/N)))
+  
+  cat("Chi-squared test of null model difference\n")
+  cat("Null model chi-squared   ", round(null_dev, 3), "\n")
+  cat("Model chi-squared        ", round(dev, 3), "\n")
+  cat("Difference               ", round(chisq_q, 3), "\n")
+  cat("Degrees of freedom       ", chisq_df, "\n")
+  cat("Significance             ", round(1 - pchisq(chisq_q, chisq_df), 3), "\n")
+  
+  cat("Pseudo R^2 for logistic regression\n")
+  cat("Hosmer and Lemeshow R^2  ", round(R_l, 3), "\n")
+  cat("Cox and Snell R^2        ", round(R_cs, 3), "\n")
+  cat("Nagelkerke R^2           ", round(R_n, 3), "\n")
+}
+
+# Estimate logit models and resulting p-values of differences to null models
+model_direct <- glm(
+  Direct ~ Gender + Age + Urbanisation,
+  data = printdata,
+  family = binomial()
+)
+
+model_nearmiss <- glm(
+  Near.Miss ~ Gender + Age + Urbanisation,
+  data = printdata,
+  family = binomial()
+)
+
+model_EMS <- glm(
+  EMS ~ Gender + Age + Urbanisation,
+  data = printdata,
+  family = binomial()
+)
+
+ggcoefstats(model_direct)
+ggcoefstats(model_EMS)
+ggcoefstats(model_nearmiss)
+```
+
+## Methods {#sec-methods}
+
+All analyses were completed in RStudio version 2023.03.0 build 386 [@positteam2023]. Data were processed using the `tidyverse` [@wickham2019] and `naniar` [@tierney2023] packages. Plots and graphs were generated in `ggplot2` [@wickham2016], including the `ggstatsplot` [@patil2021] extension package. MDS rotations were done in `smacof` [@mair2022] and partial correlations with `ppcor` [@kim2015]. Network comparison was conducted in `NetworkComparisonTest` [@vanborkulo2022]. Network graphs and related plotting and statistics were conducted in `bootnet` [@epskamp2018b] and `qgraph` [@epskamp2012]. The article was written in RMarkdown using the citation tool `citr` [@aust2019] and compiled using the `knitr` [@xie2014; @xie2015; @xie2023] package for reproducibility.
+
+We started by fitting a model for the graphical representation of networks. We modelled a partial correlation network of the risk perception variables using the multidimensional scaling (MDS) technique [@jones2018]. We thus retrieved Shepard curves for each MDS type and chose model type by balancing parsimony with increasing fit (reduction of the stress factor, see [@jones2018]). This model was only used to construct the MDS model.
+
+For the main analysis, we fitted a pairwise Markov random field (PMRF) model as a Gaussian graphical model (GGM). We used Spearman correlations and the EBICglasso estimator function [@epskamp2012; @foygel2010]. We fitted two models: a non-parametric model and a case-dropping network model. The former was used for presenting and analysing the network as a graph and as a plot of centrality indices, and the latter was used for analysing the stability of centrality indices on both system- and node levels [@epskamp2018b].
+
+To compare between groups, we estimated group-wise Gaussian graphical models and used the network comparison test (NCT) as outlined by Fried, Epskamp, Veerman and van Borkulo [-@fried2022].
+
+# Results {#sec-results}
+
+## Network Estimation and Robustness {#sec-networkestimation}
+
+We first started by estimating the network model using the `EBICglasso` algorithm.
+
+```{r}
+#| label: model-estimation
+
+# Estimate the network. Change "nCores" to a fitting amount of processor cores.
+network <- estimateNetwork(
+  dplyr::select(data, Weather:Polarization),
+  default = "EBICglasso",
+  corMethod = "cor",
+  corArgs = list(method = "spearman"),
+  nonPositiveDefinite = "continue"
+)
+```
+
+To graphically plot the network, we modelled the resulting network using the MDS method. Shepard plots (@fig-mds-shepards) suggested that we use the spline model.
+
+```{r}
+#| label: fig-mds-shepards
+#| fig-cap: "Shepard stress plots of MDS configurations"
+#| fig-subcap: 
+#| -  "Ordinal"
+#| -  "Interval"
+#| -  "Ratio"
+#| -  "Spline"
+#| layout-ncol: 2
+
+dis <- sim2diss(network$graph)
+mds_ordinal <- mds(dis, type = "ordinal")
+mds_interval <- mds(dis, type = "interval")
+mds_ratio <- mds(dis, type = "ratio")
+mds_spline <- mds(dis, type = "mspline")
+
+plot(mds_ordinal,
+     plot.type="Shepard",
+     sub = paste0("Stress = ", round(mds_ordinal$stress, 2)))
+plot(mds_interval,
+     plot.type="Shepard",
+     sub = paste0("Stress = ", round(mds_interval$stress, 2)))
+plot(mds_ratio,
+     plot.type="Shepard",
+     sub = paste0("Stress = ", round(mds_ratio$stress, 2)))
+plot(mds_spline,
+     plot.type="Shepard",
+     sub = paste0("Stress = ", round(mds_spline$stress, 2)))
+```
+
+We then retrieved a robust model of the graph using the `bootnet` package [@epskamp2018b]. The model uses the `EBICglasso` algorithm, which searches for the model that locally minimises the extended Bayesian Information Criterion [@epskamp2018b; @foygel2010]. The estimation is done using Spearman correlations because our data are expected non-normally distributed. While polychoric correlations would be possible, the small sample sizes in sub-population comparison may result in a non-positive definite correlation matrix, which disables analysis. \[CHECK THAT POLYCHOR AND SPEARMAN ARE EQUIVALENT!\] We retrieved both non-parametric and case-dropping networks for analysis.
+
+```{r}
+#| label: bootstraps
+
+# Run the following only once if possible, as they take time to run
+# Completed in 4 min 20 s. on AMD Ryzen 9 5900HS with nCores = 16
+
+bootstrap <- bootnet(
+  dplyr::select(data, Weather:Polarization),
+  nBoots     = 1000,
+  default    = "EBICglasso",
+  type       = "nonparametric",
+  nCores     = 16,               # Change to appropriate processor core count
+  statistics = c("edge",
+                 "strength",
+                 "closeness",
+                 "betweenness",
+                 "expectedInfluence"
+                 ),
+  verbose    = TRUE,
+  corMethod = "cor",
+  corArgs = list(method = "spearman")
+)
+
+# Completed in 4 min 10 s. on AMD Ryzen 9 5900HS with nCores = 16
+casedrop <- bootnet(
+  dplyr::select(data, Weather:Polarization),
+  nBoots     = 1000,
+  default    = "EBICglasso",
+  type       = "case",
+  nCores     = 16,               # Change to appropriate processor core count
+  statistics = c("edge",
+                 "strength",
+                 "closeness",
+                 "betweenness",
+                 "expectedInfluence"
+                 ),
+  verbose    = TRUE,
+  corMethod = "cor",
+  corArgs = list(method = "spearman")
+)
+
+stability <- corStability(casedrop, verbose = FALSE)
+```
+
+The robust network is plotted using the two-dimensional MDS solution as its layout, enabling us to interpret graphical distance as a proxy for vertex strength. @fig-bootstrapped-model-1 shows the network graph.
+
+```{r}
+#| label: fig-bootstrapped-model-1
+#| fig-cap: "Bootstrapped network. Edge labels indicate partial correlation strength."
+
+# Plot network graph with previously configured layout
+plot(
+  bootstrap$sample,
+  layout = mds_spline$conf,
+  edge.labels = TRUE,
+)
+```
+
+```{r}
+#| label: tbl-network-stats
+#| tbl-cap: "Descriptive statistics of network nodes"
+summary <- tibble(
+  Node = rownames(network$graph),
+  Max = summarise(as_tibble(network$graph), across(everything(), max)) %>% unlist(., use.names=FALSE),
+  Min = summarise(as_tibble(network$graph), across(everything(), min)) %>% unlist(., use.names=FALSE),
+  Mean = summarise(as_tibble(network$graph), across(everything(), mean)) %>% unlist(., use.names=FALSE),
+  SD = summarise(as_tibble(network$graph), across(everything(), sd)) %>% unlist(., use.names=FALSE)
+)
+
+cent <- centralityTable(network$graph, standardized = FALSE) %>%
+  reshape2::dcast(
+    node ~ measure,
+    value.var = "value"
+  ) %>%
+  rename(
+    Node = "node"
+  )
+
+summary <- left_join(summary, cent, by = "Node")
+
+kable(
+  summary,
+  digits = 2,
+  col.names = c("Node", "Maximum", "Minimum", "Mean", "SD", "Betweenness", "Closeness", "Strength", "Expected Influence")
+  )
+```
+
+There are two distinct connections in the network: Traffic-Fire (`r round(network$graph[2,3], 2)`) and Hybrid-Polarization (`r round(network$graph[13,14], 2)`). Most other connections are fairly weak, with low-to-medium partial correlations.
+
+The strongest connections are between Traffic and Fire (strength = `r round(as.numeric(summary[2, "Max"]), 2)`). Most nodes have only positive connections, with nuclear, work, illness, and hybrid being the only nodes with connections below zero. Mean connection strength is low across most nodes, but variation among nodes is comparatively high.
+
+Four node connections are negative: Fire-Hybrid (`r round(network$graph["Fire","Hybrid"], 2)`), Nuclear-Hybrid (`r round(network$graph["Nuclear","Hybrid"], 2)`), Work-Illness (`r round(network$graph["Work","Illness"], 2)`), and Hybrid-Work (`r round(network$graph["Hybrid","Work"], 2)`).
+
+@fig-bootstrapped-model-2 shows node centrality measures by node and measure. Strength varies between `r round(as.numeric(summary[1, "Strength"]), 1)` for extreme weather phenomena and `r round(as.numeric(summary[3, "Strength"]), 1)` for fire.
+
+Closeness is very low, with every node around 0.005 in closeness. The similarity in scores suggests that nodes are fairly evenly connected.
+
+Betweenness, however, is much more varied. Weather presents a betweenness of zero, meaning that it does not feature in any shortest path connection in the network. At the other end, Environmental and Illness feature in fourteen shortest paths, thus being very central nodes in the network.
+
+As there are very few negative connections, expected influence mirrors strength for most nodes. Fire, Nuclear, Work, Illness, Operational, and Hybrid present at least one negative connection, which results in their expected influence being slightly lower than their strength.
+
+@tbl-sml shows the smallworldness statistics for the network. The smallworldness index is not substantially larger than either 1 or 3, suggesting that the network is not a small-world network [@humphries2008; @newman2003]. Neither transitivity nor average path length (APL) is substantially higher than their randomly generated counterparts, further suggesting that the network is not considered a small-world network.
+
+```{r}
+#| label: tbl-sml
+#| tbl-cap: "Smallworldness statistics of bootstrapped network, 1000 permutations for random networks"
+
+sml <- as_tibble(as.list(smallworldness(network$graph)))
+sml <- round(sml, digits = 3)
+
+sml <- unite(
+  sml,
+  col="transCI",
+  c("trans_rnd_lo", "trans_rnd_up"),
+  sep="-"
+)
+sml <- unite(
+  sml,
+  col="averagelengthCI",
+  c("averagelength_rnd_lo", "averagelength_rnd_up"),
+  sep="-"
+)
+sml$transCI <- paste0("(",sml$transCI,")")
+sml$averagelengthCI <- paste0("(",sml$averagelengthCI,")")
+
+sml <- unite(
+  sml,
+  col="trans_rnd",
+  c("trans_rnd_M", "transCI"),
+  sep=" "
+)
+sml <- unite(
+  sml,
+  col="averagelength_rnd",
+  c("averagelength_rnd_M", "averagelengthCI"),
+  sep=" "
+)
+
+kable(
+  sml,
+  digits = 3,
+  col.names = c("Smallworldness Index", "Transitivity", "APL", "Random transitivity (95% CI)", "Random APL (95% CI)")
+)
+```
+
+```{r}
+#| label: fig-bootstrapped-model-2
+#| fig-cap: "Centrality measures of bootstrapped network, raw scores."
+
+# Plot centrality data
+centralityPlot(
+  bootstrap$sample,
+  include = "All"
+  )
+```
+
+The case-dropped models can be correlated with the original model to estimate how well the case-dropped model centrality measures represent the original. The *correlation stability coefficient* (CS coefficient) then determines the proportion of cases that may be dropped whilst still retaining a correlation of $r = p$, where $p$ is the preferred correlational level, in $(1-\alpha)/100$ % of cases. For this study, we use the default values of $r = 0.7$ and $95$ per cent.
+
+Previous research suggests that, when interpreting differences between centralities (e.g., if one risk perception is more central to the network than another), the centrality stability coefficient should preferably be above 0.5, with higher equalling a more stable centrality measure [@epskamp2018b; @fried2022].
+
+@fig-bootstrapped-model-3 shows the stability of the centrality measures when case-dropping. The CS coefficients are listed in @tbl-cscoef. Strength, closeness and expected influence are all stable, with up to 75 per cent of cases having to be dropped before the correlation drops below 0.7 in 95% of bootstraps. However, betweenness does not seem to be stable enough to interpret, at a CS coefficient of only `r round(stability[["betweenness"]], 2)`.
+
+| Measure            | CS coefficient                                 |
+|--------------------|------------------------------------------------|
+| Betweenness        | `r round(stability[["betweenness"]], 2)`       |
+| Closeness          | `r round(stability[["closeness"]], 2)`         |
+| Expected Influence | `r round(stability[["expectedInfluence"]], 2)` |
+| Strength           | `r round(stability[["strength"]], 2)`          |
+
+: Correlation Stability (CS) coefficients of the bootstrapped model {#tbl-cscoef}
+
+```{r}
+#| label: fig-bootstrapped-model-3
+#| fig-cap: "Stability plot"
+
+# Plot stability tests
+plot(casedrop, statistics = "all") +
+  geom_hline(yintercept = 0.7, color = "grey", linetype = "dashed")
+```
+
+@fig-bootstrapped-model-4 shows significance tests of the differences in connection strengths between each node-pair vertex, ordered by connection strength in the original estimated network. In other words, we tested whether two connections significantly differ from each other at $\alpha = 0.05$. Around half of the comparisons are significant. The Work-Illness vertex is significantly different from every other vertex. Traffic-Fire and Hybrid-Polarization are both significantly different from all other vertices except from each other.
+
+```{r}
+#| label: fig-bootstrapped-model-4
+#| fig-cap: "Connection pair-wise significance tests. Diagonal shows strength of original connection, gray boxes indicate non-significant differences, black boxes indicate significant differences at 0.05."
+
+# Plot bootstrapped significance intervals
+plot(
+  bootstrap,
+  statistics          = "edge",
+  plot                = "difference",
+  alpha               = 0.05,
+  onlyNonZero         = TRUE,
+  order               = "mean"
+)
+```
+
+## Network Comparisons {#sec-networkcomparisons}
+
+```{r}
+#| label: network-setup
+
+# Estimate networks for every subgroup separately
+net_direct_0 <- data %>%
+  dplyr::filter(Direct == 0) %>%
+  dplyr::select(Weather:Polarization) %>%
+  estimateNetwork(
+    default = "EBICglasso",
+    corMethod = "cor",
+    corArgs = list(method = "spearman"),
+    verbose = FALSE,
+    nonPositiveDefinite = "continue"
+  )
+net_direct_1 <- data %>%
+  dplyr::filter(Direct == 1) %>%
+  dplyr::select(Weather:Polarization) %>%
+  estimateNetwork(
+    default = "EBICglasso",
+    corMethod = "cor",
+    corArgs = list(method = "spearman"),
+    verbose = FALSE,
+    nonPositiveDefinite = "continue"
+  )
+
+net_nearmiss_0 <- data %>%
+  dplyr::filter(Near.Miss == 0) %>%
+  dplyr::select(Weather:Polarization) %>%
+  estimateNetwork(
+    default = "EBICglasso",
+    corMethod = "cor",
+    corArgs = list(method = "spearman"),
+    verbose = FALSE,
+    nonPositiveDefinite = "continue"
+  )
+net_nearmiss_1 <- data %>%
+  dplyr::filter(Near.Miss == 1) %>%
+  dplyr::select(Weather:Polarization) %>%
+  estimateNetwork(
+    default = "EBICglasso",
+    corMethod = "cor",
+    corArgs = list(method = "spearman"),
+    verbose = FALSE,
+    nonPositiveDefinite = "continue"
+  )
+
+net_ems_0 <- data %>%
+  dplyr::filter(EMS == 0) %>%
+  dplyr::select(Weather:Polarization) %>%
+  estimateNetwork(
+    default = "EBICglasso",
+    corMethod = "cor",
+    corArgs = list(method = "spearman"),
+    verbose = FALSE,
+    nonPositiveDefinite = "continue"
+  )
+net_ems_1 <- data %>%
+  dplyr::filter(EMS == 1) %>%
+  dplyr::select(Weather:Polarization) %>%
+  estimateNetwork(
+    default = "EBICglasso",
+    corMethod = "cor",
+    corArgs = list(method = "spearman"),
+    verbose = FALSE,
+    nonPositiveDefinite = "continue"
+  )
+```
+
+We compared networks conditioned on the three substantive control variables listed in @sec-controlvariables: Direct experience of fire, near miss-experience of fire, and emergency services employment. In each case, we expect a lower global density - reflecting the weakening of System II risk assessment in favour of System I. We further hypothesised that the node strength of fire experience would follow a unique development:
+
+-   Experiencing a fire leads to higher probability (the salience hypothesis).
+-   Experiencing a near-miss leads to lower probability (the false certainty hypothesis).
+-   Working in emergency services leads to higher probability (the culture hypothesis).
+
+The statistics are shown in @tbl-networkcomps. The networks are graphed in @fig-comp-graphs.
+
+```{r}
+#| label: networkcomps
+
+# Compare strength between networks
+# NB: Using pull request #32 of NCT for multi-core support
+comp_direct <- NCT(
+  net_direct_0,
+  net_direct_1,
+  gamma = 0.5,
+  it = 1000,
+  abs = TRUE,
+  test.centrality = TRUE,
+  centrality = c("closeness", "betweenness", "strength", "expectedInfluence"),
+  nodes = "Fire",
+  progressbar = FALSE,
+  verbose = FALSE,
+  nCores = 16,
+  make.positive.definite = TRUE
+)
+
+comp_nearmiss <- NCT(
+  net_nearmiss_0,
+  net_nearmiss_1,
+  gamma = 0.5,
+  it = 1000,
+  abs = TRUE,
+  test.centrality = TRUE,
+  centrality = c("closeness", "betweenness", "strength", "expectedInfluence"),
+  nodes = "Fire",
+  progressbar = FALSE,
+  verbose = FALSE,
+  nCores = 16,
+  make.positive.definite = TRUE
+)
+
+comp_ems <- NCT(
+  net_ems_0,
+  net_ems_1,
+  gamma = 0.5,
+  it = 1000,
+  abs = TRUE,
+  test.centrality = TRUE,
+  centrality = c("closeness", "betweenness", "strength", "expectedInfluence"),
+  nodes = "Fire",
+  progressbar = FALSE,
+  verbose = FALSE,
+  nCores = 16,
+  make.positive.definite = TRUE
+)
+```
+
+::: {#tbl-networkcomps layout-nrow="3"}
+| Test               | Statistic                                                      | Significance                                      |
+|------------------|------------------------------|------------------------|
+| Network variance   | $\Delta_{O} =$ `r round(comp_direct$nwinv.real, 2)`            | $p =$ `r round(comp_direct$nwinv.pval, 4)`        |
+| Global strength    | $\Delta_{S}^{g} =$ `r round(comp_direct$glstrinv.real, 2)`     | $p =$ `r round(comp_direct$glstrinv.pval, 4)`     |
+| Closeness          | $\Delta_{C} =$ `r round(comp_direct$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_direct$diffcen.pval[[1]], 4)` |
+| Betweenness        | $\Delta_{B} =$ `r round(comp_direct$diffcen.real[[2]], 2)`     | $p =$ `r round(comp_direct$diffcen.pval[[2]], 4)` |
+| Strength           | $\Delta_{S}^{l} =$ `r round(comp_direct$diffcen.real[[3]], 2)` | $p =$ `r round(comp_direct$diffcen.pval[[3]], 4)` |
+| Expected Influence | $\Delta_{EI} =$ `r round(comp_direct$diffcen.real[[4]], 2)`    | $p =$ `r round(comp_direct$diffcen.pval[[4]], 4)` |
+
+: Direct Experience of Fire (`r length(comp_direct$glstrinv.perm)` permutations) {#tbl-comp-1}
+
+| Test               | Statistic                                                        | Significance                                        |
+|------------------|------------------------------|------------------------|
+| Network variance   | $\Delta_{O} =$ `r round(comp_nearmiss$nwinv.real, 2)`            | $p =$ `r round(comp_nearmiss$nwinv.pval, 4)`        |
+| Global strength    | $\Delta_{S}^{g} =$ `r round(comp_nearmiss$glstrinv.real, 2)`     | $p =$ `r round(comp_nearmiss$glstrinv.pval, 4)`     |
+| Closeness          | $\Delta_{C} =$ `r round(comp_nearmiss$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_nearmiss$diffcen.pval[[1]], 4)` |
+| Betweenness        | $\Delta_{B} =$ `r round(comp_nearmiss$diffcen.real[[2]], 2)`     | $p =$ `r round(comp_nearmiss$diffcen.pval[[2]], 4)` |
+| Strength           | $\Delta_{S}^{l} =$ `r round(comp_nearmiss$diffcen.real[[3]], 2)` | $p =$ `r round(comp_nearmiss$diffcen.pval[[3]], 4)` |
+| Expected Influence | $\Delta_{EI} =$ `r round(comp_nearmiss$diffcen.real[[4]], 2)`    | $p =$ `r round(comp_nearmiss$diffcen.pval[[4]], 4)` |
+
+: Near Miss Experience of Fire (`r length(comp_nearmiss$glstrinv.perm)` permutations) {#tbl-comp-2}
+
+| Test               | Statistic                                                   | Significance                                   |
+|------------------|------------------------------|------------------------|
+| Network variance   | $\Delta_{O} =$ `r round(comp_ems$nwinv.real, 2)`            | $p =$ `r round(comp_ems$nwinv.pval, 4)`        |
+| Global strength    | $\Delta_{S}^{g} =$ `r round(comp_ems$glstrinv.real, 2)`     | $p =$ `r round(comp_ems$glstrinv.pval, 4)`     |
+| Closeness          | $\Delta_{C} =$ `r round(comp_ems$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_ems$diffcen.pval[[1]], 4)` |
+| Betweenness        | $\Delta_{B} =$ `r round(comp_ems$diffcen.real[[2]], 2)`     | $p =$ `r round(comp_ems$diffcen.pval[[2]], 4)` |
+| Strength           | $\Delta_{S}^{l} =$ `r round(comp_ems$diffcen.real[[3]], 2)` | $p =$ `r round(comp_ems$diffcen.pval[[3]], 4)` |
+| Expected Influence | $\Delta_{EI} =$ `r round(comp_ems$diffcen.real[[4]], 2)`    | $p =$ `r round(comp_ems$diffcen.pval[[4]], 4)` |
+
+: Emergency Services Employment (`r length(comp_ems$glstrinv.perm)` permutations) {#tbl-comp-3}
+
+Network NCT results by substantive control variable
+:::
+
+**UPDATE 12/5/2023: Check why EMS Global strength is p = 1, closeness is C = 0 and p = NA. There were some Github discussions about similar problems - is this, too, a bug?**
+
+Direct experience of fire is related to a weak effect on network structure (@tbl-comp-1). Global strength is significantly different, indicating that the overall connectivity has changed between networks. However, network variance is not significantly different. Since the network is dense and non-smallworld, the difference between variance and strength may be due to small changes in many network edges leading to a overall significant change in the sum of edge strength, while leaving individual maximum changes small [see @vanborkulo2022].
+
+Near-miss experiences have a stronger effect on the network structure (@tbl-comp-2). Network variance and global strength are both significantly different, suggesting that a change in overall network structure has occurred. In both cases, the statistic has grown in the network estimated from respondents that have experienced a near miss. In other words: the network seems to be slightly denser in people who have nearly experienced a fire.
+
+Finally, working in emergency services is related to a weak effect on network structure, but inverse to that of a direct fire experience (@tbl-comp-3). Network variance is significantly different, indicating that one or more edges have distinctly changed. However, global strength difference is non-significant, suggesting that these changes have not resulted in an overall change in the total edge strength of the network. In other words: working in emergency services is related to a shift in network structure, but not an increase or decrease in density *per se*.
+
+For the Fire node, no changes seem to have occurred in either the near-miss or the EMS employment comparisons. However, for individuals who have a direct fire experience, Expected Influence has dropped significantly. This suggests that the connections between Fire and other nodes has grown slightly more negative. Because the network does not show any negative edges (@fig-comp-graphs-2), this change corresponds to a drop in intensity of positive connections. The Fire node also shows marginally significant changes on closeness and strength in the direct experience comparison. The change in strength mirrors that of the EI change, further suggesting that the centrality of Fire has slightly dropped.
+
+```{r}
+#| label: fig-comp-graphs
+#| fig-cap: "Gaussian graphical models of risk perception by substantive control variables, compared using network comparison testing"
+#| fig-subcap:
+#| -  "No direct experience"
+#| -  "Direct experience"
+#| -  "No near-miss experience"
+#| -  "Near-miss experience"
+#| -  "Not in EMS employment"
+#| -  "In EMS employment"
+#| layout: "[[1,1],[1,1],[1,1]]"
+
+qgraph(net_direct_0$graph,
+       layout = mds_spline$conf,
+       edge.labels = TRUE,
+       maximum = 0.5,
+       details = TRUE)
+text(-1, -1, paste0("N = ",net_direct_0$nPerson))
+
+qgraph(net_direct_1$graph,
+       layout = mds_spline$conf,
+       edge.labels = TRUE,
+       maximum = 0.5,
+       details = TRUE)
+text(-1, -1, paste0("N = ",net_direct_1$nPerson))
+
+qgraph(net_nearmiss_0$graph,
+       layout = mds_spline$conf,
+       edge.labels = TRUE,
+       maximum = 0.5,
+       details = TRUE)
+text(-1, -1, paste0("N = ",net_nearmiss_0$nPerson))
+
+qgraph(net_nearmiss_1$graph,
+       layout = mds_spline$conf,
+       edge.labels = TRUE,
+       maximum = 0.5,
+       details = TRUE)
+text(-1, -1, paste0("N = ",net_nearmiss_1$nPerson))
+
+qgraph(net_ems_0$graph,
+       layout = mds_spline$conf,
+       edge.labels = TRUE,
+       maximum = 0.5,
+       details = TRUE)
+text(-1, -1, paste0("N = ",net_ems_0$nPerson))
+
+qgraph(net_ems_1$graph,
+       layout = mds_spline$conf,
+       edge.labels = TRUE,
+       maximum = 0.5,
+       details = TRUE)
+text(-1, -1, paste0("N = ",net_ems_1$nPerson))
+
+```
+
+# Discussion
+
+To repeat from SECTION, we had six hypotheses, grouped into system and node level hypotheses. Both groups of hypotheses state the same:
+
+-   System level:
+
+    -   $H_1^S:$ Experiencing a fire leads to a sparser risk perception network
+    -   $H_2^S:$ Experiencing a near-miss leads to a denser risk perception network
+    -   $H_3^S:$ Working in emergency services leads to a sparser risk perception
+
+-   Node level:
+
+    -   $H_1^N:$ Experiencing a fire leads to a decrease in the centrality of fire in the risk perception network
+    -   $H_2^N:$ Experiencing a near-miss leads to an increase in the centrality of fire in the risk perception network
+    -   $H_3^N:$ Working in emergency services leads to a decrease in the centrality of fire in the risk perception network
+
+On the system level, we found no support for $H_1^S$ or $H_3^S$. In both cases, we even found partial support for the opposite direction: for both direct experiences and working in EMS, networks partially have grown more dense than for others.
+
+However, we found strong support for $H_2^S$, that a near-miss experience leads to a denser risk perception network.
+
+*UPDATE 12/5/2023: What does it mean for the node to drop in centrality, viz. the idea that experience lowers System II intensity? Is increased centrality == increased intensity, or is it the other way around?*
+
+On the node level, the situation is very different. Overall, we found very little support for our hypotheses. We found marginal support for $H_1^N$: subjectively experienced probabilities of fire might become less central in the overall network after experiencing a near-miss experience. All other changes were non-significant.
+
+# NOTES, NOT FOR PUBLICATION
+
+## How to do Network Comparison Testing
+
+-   Visual comparison -\> NB: Sparsity/density is a function of sample size in regularized networks!
+
+-   Correlate two networks: Estimate networks -\> Extract weight matrices using object\$graph -\> Retrieve lower triangle using wm\[lower.tri(wm)\] -\> Correlate the two (cor) or scatter plot (plot)
+
+    -   NO SIG TESTING! 1) Based only on the edge weights, not the certainty with which these edges have been estimated!; 2) In some estimators, weights are not normally distributed; 3) Null hypothesis is wrong (H0: Zero correlation - we're looking at similarity!)
+
+-   Network Comparison Test (NCT): 1) Calculate group-wise networks and retrieve metric of interest (e.g., difference in APL); 2) Randomly re-assign respondents to different groups (disregarding original divisions) and re-estimate networks to retrieve permuted metric; 3) Collect a reference distribution based on permuted metrics and significance test the real metric against this distribution (see textbook chapter 8 + van Borkulo et al. 2022)
+
+    -   Package `NetworkComparisonTest` (van Borkulo et al. 2022_HANDWRITTEN REF)
+    -   Performance is validated for: Network structure invariance; Edge strength invariance; Global strength invariance -\> Others are implemented but not yet validated (Still true?), but "no inherent reason" to believe that they would be bad to use
+    -   First, omnibus test of difference; then, confirmatory (multiple test-corrected!!! They suggest Holm-Bonferroni) tests of single edge differences; finally, testing overall connectivity difference (to see if density varies) using global strength
+
+## Why is NCT non-significant when networks clearly differ visually?
+
+-   Network density is a function of sample size - smaller sample sizes yield sparser networks (textbook chapter 7 p. 123-129, especially fig 7.7)
+
+-   EBICglasso is most robust to sample size variation, but has a lower specificity (more false positives) in low sample size context
+
+    -   Textbook ch. 7 p. 125: at N = 300, specificity is 0.66 and average false positive edge weight is 0.04; at N = 5000, specificity is 0.57 and average FP edge weight is 0.01
+
+    -   Note thus, that very low strengths can effectively be "ignored" - they are presumably false positives under EBICglasso
+
+    -   However, statistical tests will not ignore (or could you threshold the test???)
+
+-   "At high sample size (e.g., N = 5,000), most model selection algorithms work well \[...\] at low sample size (e.g., N = 300), however, regularization methods (EBICglasso and mgm with CV selection) may be preferred" p. 125
+
+# References {#sec-references}
+
+::: refs
+:::

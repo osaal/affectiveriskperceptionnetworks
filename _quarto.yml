@@ -1,5 +1,23 @@
 project:
   title: "affectiveriskperceptionnetworks"
+  output-dir: _LOCAL/output
+  
+format:
+  docx:
+    reference-doc: _FORMATTING/tnr-12pt-double-wordstyle.docx
+    fig-dpi: 300
+  pdf:
+    documentclass: article
+    number-sections: true
 
+bibliography: _FORMATTING/references.bib
+csl: _FORMATTING/apa.csl
 
+execute:
+  echo: false
+  warning: false
+  cache: false
 
+knitr:
+  opts_chunk:
+    cache.path: _LOCAL/cache/
