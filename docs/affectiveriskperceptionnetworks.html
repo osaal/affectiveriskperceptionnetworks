@@ -757,7 +757,7 @@ div.csl-indent {
 </div>
 <p>The case-dropped models can be correlated with the original model to estimate how well the case-dropped model centrality measures represent the original. The <em>correlation stability coefficient</em> (CS coefficient) then determines the proportion of cases that may be dropped whilst still retaining a correlation of <span class="math inline">\(r = p\)</span>, where <span class="math inline">\(p\)</span> is the preferred correlational level, in <span class="math inline">\((1-\alpha)/100\)</span> % of cases. For this study, we use the default values of <span class="math inline">\(r = 0.7\)</span> and <span class="math inline">\(95\)</span> per cent.</p>
 <p>Previous research suggests that, when interpreting differences between centralities (e.g., if one risk perception is more central to the network than another), the centrality stability coefficient should preferably be above 0.5, with higher equalling a more stable centrality measure <span class="citation" data-cites="epskamp2018b fried2022">(<a href="#ref-epskamp2018b" role="doc-biblioref">Epskamp et al., 2018</a>; <a href="#ref-fried2022" role="doc-biblioref">Fried et al., 2022</a>)</span>.</p>
-<p><a href="#fig-bootstrapped-model-3">Figure&nbsp;7</a> shows the stability of the centrality measures when case-dropping. The CS coefficients are listed in <a href="#tbl-cscoef">Table&nbsp;3</a>. Strength, closeness and expected influence are all stable, with up to 75 per cent of cases having to be dropped before the correlation drops below 0.7 in 95% of bootstraps. However, betweenness does not seem to be stable enough to interpret, at a CS coefficient of only 0.44.</p>
+<p><a href="#fig-bootstrapped-model-3">Figure&nbsp;7</a> shows the stability of the centrality measures when case-dropping. The CS coefficients are listed in <a href="#tbl-cscoef">Table&nbsp;3</a>. Strength, closeness and expected influence are all stable, with up to 75 per cent of cases having to be dropped before the correlation drops below 0.7 in 95% of bootstraps. However, betweenness does not seem to be stable enough to interpret, at a CS coefficient of only 0.36.</p>
 <div id="tbl-cscoef" class="anchored">
 <table class="table">
 <caption>Table&nbsp;3: Correlation Stability (CS) coefficients of the bootstrapped model</caption>
@@ -770,7 +770,7 @@ div.csl-indent {
 <tbody>
 <tr class="odd">
 <td>Betweenness</td>
-<td>0.44</td>
+<td>0.36</td>
 </tr>
 <tr class="even">
 <td>Closeness</td>
@@ -848,7 +848,7 @@ div.csl-indent {
 <tr class="odd">
 <td style="text-align: left;">Network variance</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{O} =\)</span> 0.11</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.5425</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.5465</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Global strength</td>
@@ -858,22 +858,22 @@ div.csl-indent {
 <tr class="odd">
 <td style="text-align: left;">Closeness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{C} =\)</span> 0</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.0829</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.0729</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Betweenness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{B} =\)</span> -7</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1439</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1349</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Strength</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{S}^{l} =\)</span> -0.14</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.0599</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.0609</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Expected Influence</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{EI} =\)</span> -0.14</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.045</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.05</td>
 </tr>
 </tbody>
 </table>
@@ -899,32 +899,32 @@ div.csl-indent {
 <tr class="odd">
 <td style="text-align: left;">Network variance</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{O} =\)</span> 0.15</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.01</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.003</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Global strength</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{S}^{g} =\)</span> 0.17</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.003</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.002</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Closeness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{C} =\)</span> 0</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.4695</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.5055</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Betweenness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{B} =\)</span> 1</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.9211</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.9331</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Strength</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{S}^{l} =\)</span> 0.01</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.8811</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.8791</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Expected Influence</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{EI} =\)</span> 0.01</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.8781</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.8621</td>
 </tr>
 </tbody>
 </table>
@@ -950,7 +950,7 @@ div.csl-indent {
 <tr class="odd">
 <td style="text-align: left;">Network variance</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{O} =\)</span> 0.37</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.047</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.046</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Global strength</td>
@@ -965,17 +965,17 @@ div.csl-indent {
 <tr class="even">
 <td style="text-align: left;">Betweenness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{B} =\)</span> 8</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.2418</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.2607</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Strength</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{S}^{l} =\)</span> 0.24</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1628</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1459</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Expected Influence</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{EI} =\)</span> 0.24</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1698</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1389</td>
 </tr>
 </tbody>
 </table>

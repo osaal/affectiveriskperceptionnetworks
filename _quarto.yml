@@ -1,7 +1,7 @@
 project:
   title: "affectiveriskperceptionnetworks"
   type: website
-  output-dir: _LOCAL/output
+  output-dir: docs
   
 format:
   docx:
@@ -10,6 +10,7 @@ format:
   pdf:
     documentclass: article
     number-sections: true
+  html: default
 
 bibliography: _FORMATTING/references.bib
 csl: _FORMATTING/apa.csl
