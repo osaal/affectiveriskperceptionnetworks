@@ -1,6 +1,21 @@
 ---
 title: "Affective Risk Perception Networks"
 author: "Jan-Erik Johanson, Alisa Puustinen & Oliver Saal"
+subtitle: "Draft article for ÅAU Sociology summer seminar 1-2 June 2023"
+abstract: |
+  This is an early draft version on a research project I, senior researcher Alisa Puustinen
+  at Pelastusopisto and professor Jan-Erik Anderson at University of Tampere have been working
+  on. Its main point is to argue for a network conception of risk perception, i.e., that
+  individuals' perceptions of hazards and risks are constructed through a complex system of
+  interactions, as opposed to direct perception and evaluation of singular risk events.
+  
+  We recently decided to divide the paper into two: one empirical section for a journal,
+  and one theoretical discussion for an invited book chapter.
+  The formatting is still very all-over-the-place, I apologize for any illegible graphics!
+  
+  A legible online version is temporarily available at my website:
+    
+  osaal.github.io/affectiveriskperceptionnetworks
 date: last-modified
 date-format: long
 editor: visual
@@ -17,9 +32,101 @@ workdir <- "C:/Users/olive/RPROJS/papers/affectiveriskperceptionnetworks"
 packages <- c("tidyverse", "naniar", "knitr", "ggstatsplot", "bootnet", "ppcor", "smacof", "qgraph", "NetworkComparisonTest")
 lapply(packages, library, character.only=TRUE)
 setwd(workdir)
+
+set.seed(12345)
 ```
 
 # Introduction {#sec-introduction}
+
+# Previous Research and Theory {#sec-previous}
+
+## A Preliminary Definition of Risk, Risk Perception, and Resilience
+
+The usage of the three key words (risk, risk perception, and resilience) in the research literature is varied. Some attempts have been made at collating these divergent definitions, notably by Aven [-@aven2022]. They present six distinct perspectives, roughly named the disjunct, broader disjunct, event, consequence, undesirable potentials, and combination perspectives. Depending on the perspective, risks are defined variably as reduction in functionality, events, consequences, and/or uncertainties related to consequences. Similarly, resilience is variably defined as recovering ability, reaction ability, or even not defined at all [@aven2022].
+
+The problems with most of these perspectives, according to Aven [-@aven2022], is that they distinctly draw lines between risks and resilience. Particularly in the two disjunct perspectives as well as the event perspective, the risk ends once the event is declared over and the recovery phase as begun - the two stages are incommensurable.
+
+## Risk and Systems
+
+Perceptions of flood risk in particular have been found to correlate with perceptions of other technological risks [@zhai2008].
+
+It is important to distinguish between the ontology and the perception of risks. The former refers to the contents, dynamics, and structure of the risk itself, while the latter refers to individual's meaning-makings of risks.
+
+In the space of risk ontology, research has suggested that risks can be divided into global systemic risks (GSR) and conventional risks [@renn2019; @renn2021; @renn2022]. Summarily, GSR's transgress traditional social and scientific boundaries, are intertwined and interconnected with one another, present non-linear causality in their structure, and have non-deterministic effects [@haas2022].
+
+Non-deterministic effects cannot be adequately reduced to deterministic models.
+
+However, risk ontology is not the same as risk perception.
+
+## Risk Perception
+
+Risk perception has been widely studied in the past two decades, but is still lacking a coherent theoretical framework [@kellens2013]. Generally speaking, perception has been found to be related to both hazard experiences and reactive behaviour.
+
+Perception is related to behaviour in some way, but the causal connection is unclear [@dekoning2017]. It has been shown that post-event risk decision-making is drastically reactive to the event [@slovic2004; @gallagher2014]. The time after event is also very relevant, with post-event risk perception not only falling, but falling at a speed derivative of the time post-event [@atreya2013; @bin2013; @gallagher2014]. One study found that storm risk perception drops below objective risk probabilities given enough time between events, but rises rapidly upon the following event [@magliocca2018].
+
+## Experiences and Perception
+
+The previous literature generally distinguishes between two types of experience: **direct** and **near-miss** experiences. Direct experiences are, as the name implies, directly and non-mediately experienced, while near-miss experiences are situations that could have resulted in the expression of the hazard event, but did not. As an example, a direct experience of a fire could be a stove fire in the individual's kitchen, while a near-miss experience of a fire could be a situation where the individual noticed that they had left flammable materials on an active stove-top, but managed to remove the materials prior to them catching fire.
+
+However, we propose that risk experiences are much more varied than this. We suggest five distinct forms, borrowed from and inspired by inter-group contact theory [ICT, @zhou2020].
+
+1.  Direct non-intensive experience
+2.  Direct intensive experience
+3.  Extended experience
+4.  Imagined experience
+5.  Mediated experience
+
+The first two experiences represent the regular direct experience, with a clear distinction: the intensity in the experience is much greater in type (2) than in type (1). Burning food on the stove-top is an example of a direct non-intensive experience, while surviving a house fire is a direct intensive experience.[^1]
+
+[^1]: This distinction already suggests that the underlying function is a linear spectrum from low to high intensity. This thought needs to be further developed.
+
+If extended contact in ICT is "knowing that another ingroup member has at least one cross-group friend" [@zhou2020 p. 9], then extended risk experiences is knowing that a significant other has experienced the hazard event in question.
+
+Imagined experience represents near misses, but with an emphasis on the imaginative part. In this perspective, the causally empowered aspect is not how the experience is 'almost like a risk' (i.e., risk resemblance), but the near-miss as a trigger for considering a potential risk realisation. In other words: the near-miss triggers the individual to consider what the risk could have looked like and how it could have played out, which itself triggers a reconsideration of the probabilities attached to the risk event.
+
+Mediated experience is the experiencing the risk as portrayed in media [cf. @zhou2020 p. 15]. This differs from the extended experience in that the originator of the message is not a significant other of the individual. Risks are experienced mediated all the time: from COVID-19 discussions on social media to news events of the war in Ukraine, individuals are constantly exposed to mediated experiences. In risk perception research, this topic has been studied under the sub-topic of risk communication studies.
+
+One motivation for using these distinctive forms of experience may be drawn from social phenomenology.
+
+-   The base world of work and the doxic position [@heidegger1962 p. (56-57); @schütz1962 p. 227; @bégout2007].
+-   Action oriented towards goals or projects [@schütz1967 p. 59-64; @heidegger1962 p. (145)].
+-   Ideal-typical projection requires familiarity and typicality [@schütz2011 p. 126-128].
+-   Recognition of familiarity/typicality occurs through relevance systems: topical, interpretational, and motivational relevance [@schütz2011 p. 94-95, 108, 113, 119].
+
+# Hypotheses {#sec-hypotheses}
+
+There are two main findings in the previous literature:
+
+1.  Direct hazard experiences lead to a decrease in perception of risk probability.
+2.  Near-miss hazard experiences lead to an increase in perception of risk probability.
+
+To investigate the support for these findings, we apply network analysis. Because networks can be analysed on both system and node levels, we thus divide each finding into two distinct propositions:
+
+1.  Direct hazard experiences lead to a decrease in perception of risk probability on the:
+    1.  System level, and the
+    2.  Node level.
+2.  Near-miss hazard experiences lead to an increase in perception of risk probability on the:
+    1.  System level, and the
+    2.  Node level.
+
+The system level test cannot distinguish between different objects of perception, as we are testing a whole network composed of multiple modes. Thus, the system level test judges a more general causality: that the experience (whether near-miss or direct) causally affects the system of risk perception.
+
+The system- and node-level hypotheses are independent. Because of the complex causal mechanisms of networks, the cumulative effects on the system level of any given input need not match up with a singular node-level effect. Just because the risk perception network changes does not automatically mean that a particular node changes, and vice versa. Whether a node affects system structure or system changes affect singular nodes is dependent on the relations between nodes within the system. As an example of this: networks have two structural properties that researchers can compare using psychometric network tools, global strength and network variance. Global strength simply refers to the sum of the absolute node connection weights in the network, while network variance refers to changes in *any* connection weight. As van Borkulo and colleagues [-@vanborkulo2022] show, either measure can vary independently of the other given certain change configurations between compared networks.
+
+In a similar vein, we suggest that the risk perception network and its constituent nodes may vary independently, giving rise to potential difference in structural and constituent effects. Thus, we divide the hypotheses into two categories.
+
+Further, we introduce a proxy variable measuring direct effect, whether an individual works in the emergency services.
+
+Thus, we have two groups with three hypotheses each:
+
+1.  System level:
+    1.  Experiencing a fire leads to a sparser risk perception network
+    2.  Experiencing a near-miss leads to a denser risk perception network
+    3.  Working in emergency services leads to a sparser risk perception network
+2.  Node level:
+    1.  Experiencing a fire leads to a decrease in the centrality of fire in the risk perception network
+    2.  Experiencing a near-miss leads to an increase in the centrality of fire in the risk perception network
+    3.  Working in emergency services leads to a decrease in the the centrality of fire in the risk perception network
 
 # Materials and Methods {#sec-materialsandmethods}
 
@@ -35,6 +142,8 @@ rawdata <- tibble(read.csv2("_LOCAL/input/emergencyservicesattitudes2023.csv"))
 We used the Finnish Emergency Services Attitudes 2023 material, consisting of N = 3055 survey respondents. The survey was collected between 17 January and 2 February 2023 as an on-line panel study, with sampling corresponding to central geographical, gender, and age distributions of the mainland Finnish population aged 18-79 years. Participation was voluntary and informed consent was retrieved.
 
 ### Dependent Variables {#sec-dependentvariables}
+
+**Comment: Move descriptive statistics into Results?**
 
 In the survey, respondents were asked to gauge the probability that they would encounter any of fourteen listed risks or threats in their personal lives. The risks are listed below, with short-hand names in brackets.
 
@@ -125,41 +234,33 @@ vis_miss(data)
 
 ### Control Variables {#sec-controlvariables}
 
-We used three social control variables and three substantive control variables:
+**Comment: Remove gender, age and degree of urbanisation completely? Only used to check that data represents general population, not used in main analysis!**
 
--   Gender
--   Age
--   Degree of urbanisation
+We used three substantive control variables:
+
 -   Direct experience of fire
 -   Near miss-experience of fire
 -   Emergency services employment
 
-```{r descriptives-recoding}
-# Recode age, gender, and municipality non-destructively
-data <- rawdata %>%
-  dplyr::select(question_1, question_2, question_38) %>%
-  bind_cols(data, .)
-data <- data %>%
-  rename(Gender = question_1,
-         Age = question_2,
-         Municipality = question_38)
+Respondents were asked whether they had had a direct experience of a fire in the past twelve months. They were similarly asked whether they had experienced a near-miss situation, i.e., a scenario that could have ended in a fire but did not. Finally, the respondents were asked whether they work in the emergency services in any capacity. These three variables constitute our substantive control variables, and operationalise three distinct hypotheses (see @sec-hypotheses) regarding the network structure. Their descriptive statistics are presented in @fig-substantive-desc.
 
-data$Gender <- case_match(
-  data$Gender,
-  1 ~ 1,
-  2 ~ 2,
-  c(3, 4) ~ NA,
-  .default = NA
-)
+```{r}
+#| label: fig-substantive-desc
+#| fig-cap: "Substantive Control Variables"
+#| fig-subcap: 
+#|   - "Direct Experience of Fire"
+#|   - "Near-Miss Experience of Fire"
+#|   - "Emergency Services Employment"
+#| layout: [[1, 1], [1, -1]]
+#| cache: true
 
-# Recode substantive variables non-destructively
 data <- rawdata %>%
   dplyr::select(question_39_row_1:question_41_row_1) %>%
-  bind_cols(data, .)
-data <- data %>%
   rename(Direct = question_39_row_1,
          Near.Miss = question_40,
-         EMS = question_41_row_1)
+         EMS = question_41_row_1) %>%
+  bind_cols(data, .)
+
 data$Direct <- case_match(
   data$Direct,
   1 ~ 1,
@@ -182,122 +283,6 @@ data$EMS <- case_match(
   .default = NA
 )
 
-# Create urbanisation variable based on csv list from Statistics Finland
-urbtable <- tibble(
-  read.csv2(
-    "_LOCAL/input/urbanisationdegreetable.csv",
-    skip = 3,
-    header = FALSE,
-    col.names = c("statmuncode","muncode","munname","urbcode","urbname")
-  )
-)
-
-urbtable <- urbtable %>%
-  mutate(
-    across(
-      everything(),
-      ~gsub("'", "", .x, useBytes=TRUE)
-    )
-  )
-
-code1mun <- urbtable %>%
-  filter(urbcode == 1) %>%
-  dplyr::select(muncode) %>%
-  na.omit()
-code1mun <- as.numeric(
-  as.vector(code1mun$muncode)
-)
-
-code2mun <- urbtable %>%
-  filter(urbcode == 2) %>%
-  dplyr::select(muncode) %>%
-  na.omit()
-code2mun <- as.numeric(
-  as.vector(code2mun$muncode)
-)
-
-code3mun <- urbtable %>%
-  filter(urbcode == 3) %>%
-  dplyr::select(muncode) %>%
-  na.omit()
-code3mun <- as.numeric(
-  as.vector(code3mun$muncode)
-)
-
-data$Municipality <- case_match(
-  data$Municipality,
-  code1mun ~ 1,
-  code2mun ~ 2,
-  code3mun ~ 3,
-  .default = NA
-)
-
-data <- data %>%
-  rename(Urbanisation = Municipality)
-```
-
-@fig-descriptives shows the gender, age, and population density distributions of the sample. The gender division matches the registered population structure in sex in 2022, but young people are under-represented by approximately ten percentage points as compared to the population [@statisticsfinland2023a]. This under-representation is spread throughout the other four categories, having 2-3 percentage points more representation than the population structure per category. The urbanisation degree is not directly comparable, but the urban-rural division matches up approximately with the cumulative percentages of urban vs. semi-urban and rural in our sample, suggesting equal representation.
-
-```{r}
-#| label: fig-descriptives
-#| fig-cap: "Descriptive Statistics of Sample"
-#| fig-subcap: 
-#|   - "Gender"
-#|   - "Age"
-#|   - "Urbanisation"
-#| layout: [[1, 1], [1, -1]]
-
-printdata <- tibble(
-    "Gender" = factor(
-      data$Gender,
-      levels = c(1:2),
-      labels = c("Female","Male")
-    ),
-    "Age" = factor(
-      data$Age,
-      levels = c(1:5),
-      labels = c("< 30 years",
-                 "31-40 years old",
-                 "41-50 years old",
-                 "51-64 years old",
-                 "65+ years old")
-    ),
-    "Urbanisation" = factor(
-      data$Urbanisation,
-      levels = c(1:3),
-      labels = c("Urban",
-                 "Semi-Urban",
-                 "Rural")
-    )
-  )
-
-ggplot(data = printdata) +
-  geom_bar(aes(x = Gender), na.rm = TRUE)
-ggplot(data = printdata) + 
-  geom_bar(aes(x = Age), na.rm = TRUE)
-ggplot(data = printdata) +
-  geom_bar(aes(x = Urbanisation), na.rm = TRUE)
-```
-
-We dichotomised gender to female vs. male because of low response rates among non-binary genders. We measured age on a five-point scale, starting from below 30 years of age and increasing to above 65 years of age, as presented in @fig-descriptives-2.
-
-We recoded respondent home municipality into degree of urbanisation, following the national classification for grouping of municipalities [@statisticsfinland2023]. The survey asked for two municipalities which no longer exist[^1], which were recoded into their corresponding new municipalities and urbanisation degree categories. The results are presented in @fig-descriptives-3.
-
-[^1]: Valtimo was incorporated into Nurmes in 2020, and Honkajoki into Kankaanpää in 2021, but both have erroneously been included in the 2023 survey.
-
-Respondents were asked whether they had had a direct experience of a fire in the past twelve months. They were similarly asked whether they had experienced a near-miss situation, i.e., a scenario that could have ended in a fire but did not. Finally, the respondents were asked whether they work in the emergency services in any capacity. These three variables constitute our substantive control variables, and operationalise three distinct hypotheses (see SECTION later) regarding the network structure. Their descriptive statistics are presented in @fig-substantive-desc.
-
-```{r}
-#| label: fig-substantive-desc
-#| fig-cap: "Substantive Control Variables"
-#| fig-subcap: 
-#|   - "Direct Experience of Fire"
-#|   - "Near-Miss Experience of Fire"
-#|   - "Emergency Services Employment"
-#| layout: [[1, 1], [1, -1]]
-#| cache: true
-
-# TODO: Redo like in fig-descriptives.
 subsdata <- tibble(
     "Direct" = factor(
       data$Direct,
@@ -316,82 +301,20 @@ subsdata <- tibble(
     )
   )
 
-printdata <- bind_cols(printdata, subsdata)
-
-ggbarstats(printdata, x = Gender, y = Direct, bf.message = FALSE)
-ggbarstats(printdata, x = Gender, y = Near.Miss, bf.message = FALSE)
-ggbarstats(printdata, x = Gender, y = EMS, bf.message = FALSE)
-```
-
-Logit regressions of the control variables on the substantive variables reveal that the substantive variables vary significantly by all control variables. The analysis thus is unable to distinguish between spurious effects, as there is as of yet no way to control for third variable effects in Gaussian graphical modelling. (THIS MAY BE REMOVED, IS IT NECESSARY?)
-
-```{r}
-#| label: fig-logistic-regs
-#| fig-cap: "Logit regression models of control variables regressed on the substantive control variables"
-#| fig-subcap: 
-#|   - "Direct Experience of Fire"
-#|   - "Near-Miss Experience of Fire"
-#|   - "Emergency Services Employment"
-#| layout: [[1, 1], [1, -1]]
-#| cache: true
-
-# Pseudo R2 function retrieved with slight modifications from Field, Miles & Field, 2012: 334
-logitmodelstats <- function(model) {
-  dev <- model$deviance
-  null_dev <- model$null.deviance
-  N <- length(model$fitted.values)
-  
-  chisq_q <- null_dev - dev
-  chisq_df <- model$df.null - model$df.residual
-  
-  R_l <- 1 - dev/null_dev
-  R_cs <- 1 - exp(-(null_dev/dev)/N)
-  R_n <- R_cs / (1 - (exp(-(null_dev/dev)/N)))
-  
-  cat("Chi-squared test of null model difference\n")
-  cat("Null model chi-squared   ", round(null_dev, 3), "\n")
-  cat("Model chi-squared        ", round(dev, 3), "\n")
-  cat("Difference               ", round(chisq_q, 3), "\n")
-  cat("Degrees of freedom       ", chisq_df, "\n")
-  cat("Significance             ", round(1 - pchisq(chisq_q, chisq_df), 3), "\n")
-  
-  cat("Pseudo R^2 for logistic regression\n")
-  cat("Hosmer and Lemeshow R^2  ", round(R_l, 3), "\n")
-  cat("Cox and Snell R^2        ", round(R_cs, 3), "\n")
-  cat("Nagelkerke R^2           ", round(R_n, 3), "\n")
-}
-
-# Estimate logit models and resulting p-values of differences to null models
-model_direct <- glm(
-  Direct ~ Gender + Age + Urbanisation,
-  data = printdata,
-  family = binomial()
-)
-
-model_nearmiss <- glm(
-  Near.Miss ~ Gender + Age + Urbanisation,
-  data = printdata,
-  family = binomial()
-)
-
-model_EMS <- glm(
-  EMS ~ Gender + Age + Urbanisation,
-  data = printdata,
-  family = binomial()
-)
-
-ggcoefstats(model_direct)
-ggcoefstats(model_EMS)
-ggcoefstats(model_nearmiss)
+ggplot(subsdata) + geom_bar(aes(x = Direct))
+ggplot(subsdata) + geom_bar(aes(x = Near.Miss))
+ggplot(subsdata) + geom_bar(aes(x = EMS))
 ```
 
 ## Methods {#sec-methods}
 
-All analyses were completed in RStudio version 2023.03.0 build 386 [@positteam2023]. Data were processed using the `tidyverse` [@wickham2019] and `naniar` [@tierney2023] packages. Plots and graphs were generated in `ggplot2` [@wickham2016], including the `ggstatsplot` [@patil2021] extension package. MDS rotations were done in `smacof` [@mair2022] and partial correlations with `ppcor` [@kim2015]. Network comparison was conducted in `NetworkComparisonTest` [@vanborkulo2022]. Network graphs and related plotting and statistics were conducted in `bootnet` [@epskamp2018b] and `qgraph` [@epskamp2012]. The article was written in RMarkdown using the citation tool `citr` [@aust2019] and compiled using the `knitr` [@xie2014; @xie2015; @xie2023] package for reproducibility.
+All analyses were completed in RStudio version 2023.03.0 build 386 [@positteam2023]. Data were processed using the `tidyverse` [@wickham2019] and `naniar` [@tierney2023] packages. Plots and graphs were generated in `ggplot2` [@wickham2016], including the `ggstatsplot` [@patil2021] extension package. MDS rotations were done in `smacof` [@mair2022] and partial correlations with `ppcor` [@kim2015]. Network comparison was conducted in `NetworkComparisonTest` [@vanborkulo2022]. Network graphs and related plotting and statistics were conducted in `bootnet` [@epskamp2018b] and `qgraph` [@epskamp2012]. The article was written in RMarkdown using the citation tool `citr` [@aust2019].
 
 We started by fitting a model for the graphical representation of networks. We modelled a partial correlation network of the risk perception variables using the multidimensional scaling (MDS) technique [@jones2018]. We thus retrieved Shepard curves for each MDS type and chose model type by balancing parsimony with increasing fit (reduction of the stress factor, see [@jones2018]). This model was only used to construct the MDS model.
 
 For the main analysis, we fitted a pairwise Markov random field (PMRF) model as a Gaussian graphical model (GGM). We used Spearman correlations and the EBICglasso estimator function [@epskamp2012; @foygel2010]. We fitted two models: a non-parametric model and a case-dropping network model. The former was used for presenting and analysing the network as a graph and as a plot of centrality indices, and the latter was used for analysing the stability of centrality indices on both system- and node levels [@epskamp2018b].
+
+**Comment: Add more description here, especially in how to interpret CS coefficients and bootstrapped centrality measures.**
 
 To compare between groups, we estimated group-wise Gaussian graphical models and used the network comparison test (NCT) as outlined by Fried, Epskamp, Veerman and van Borkulo [-@fried2022].
 
@@ -446,7 +369,9 @@ plot(mds_spline,
      sub = paste0("Stress = ", round(mds_spline$stress, 2)))
 ```
 
-We then retrieved a robust model of the graph using the `bootnet` package [@epskamp2018b]. The model uses the `EBICglasso` algorithm, which searches for the model that locally minimises the extended Bayesian Information Criterion [@epskamp2018b; @foygel2010]. The estimation is done using Spearman correlations because our data are expected non-normally distributed. While polychoric correlations would be possible, the small sample sizes in sub-population comparison may result in a non-positive definite correlation matrix, which disables analysis. \[CHECK THAT POLYCHOR AND SPEARMAN ARE EQUIVALENT!\] We retrieved both non-parametric and case-dropping networks for analysis.
+**Comment: Check that Spearman and polychoric produces the same result (when matrix is definite positive).**
+
+We then retrieved a robust model of the graph using the `bootnet` package [@epskamp2018b]. The model uses the `EBICglasso` algorithm, which searches for the model that locally minimises the extended Bayesian Information Criterion [@epskamp2018b; @foygel2010]. The estimation is done using Spearman correlations because our data are expected non-normally distributed. While polychoric correlations would be possible, the small sample sizes in sub-population comparison may result in a non-positive definite correlation matrix, which disables analysis. We retrieved both non-parametric and case-dropping networks for analysis.
 
 ```{r}
 #| label: bootstraps
@@ -715,7 +640,7 @@ net_ems_1 <- data %>%
   )
 ```
 
-We compared networks conditioned on the three substantive control variables listed in @sec-controlvariables: Direct experience of fire, near miss-experience of fire, and emergency services employment. In each case, we expect a lower global density - reflecting the weakening of System II risk assessment in favour of System I. We further hypothesised that the node strength of fire experience would follow a unique development:
+We compared networks conditioned on the three substantive control variables (see @sec-controlvariables): Direct experience of fire, near miss-experience of fire, and emergency services employment. In each case, we expect a lower global density - reflecting the weakening of System II risk assessment in favour of System I. We further hypothesised that the node strength of fire experience would follow a unique development:
 
 -   Experiencing a fire leads to higher probability (the salience hypothesis).
 -   Experiencing a near-miss leads to lower probability (the false certainty hypothesis).
@@ -776,7 +701,7 @@ comp_ems <- NCT(
 
 ::: {#tbl-networkcomps layout-nrow="3"}
 | Test               | Statistic                                                      | Significance                                      |
-|------------------|------------------------------|------------------------|
+|--------------------|----------------------------------------------------------------|---------------------------------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_direct$nwinv.real, 2)`            | $p =$ `r round(comp_direct$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_direct$glstrinv.real, 2)`     | $p =$ `r round(comp_direct$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_direct$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_direct$diffcen.pval[[1]], 4)` |
@@ -787,7 +712,7 @@ comp_ems <- NCT(
 : Direct Experience of Fire (`r length(comp_direct$glstrinv.perm)` permutations) {#tbl-comp-1}
 
 | Test               | Statistic                                                        | Significance                                        |
-|------------------|------------------------------|------------------------|
+|--------------------|------------------------------------------------------------------|-----------------------------------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_nearmiss$nwinv.real, 2)`            | $p =$ `r round(comp_nearmiss$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_nearmiss$glstrinv.real, 2)`     | $p =$ `r round(comp_nearmiss$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_nearmiss$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_nearmiss$diffcen.pval[[1]], 4)` |
@@ -798,7 +723,7 @@ comp_ems <- NCT(
 : Near Miss Experience of Fire (`r length(comp_nearmiss$glstrinv.perm)` permutations) {#tbl-comp-2}
 
 | Test               | Statistic                                                   | Significance                                   |
-|------------------|------------------------------|------------------------|
+|--------------------|-------------------------------------------------------------|------------------------------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_ems$nwinv.real, 2)`            | $p =$ `r round(comp_ems$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_ems$glstrinv.real, 2)`     | $p =$ `r round(comp_ems$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_ems$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_ems$diffcen.pval[[1]], 4)` |
@@ -879,7 +804,7 @@ text(-1, -1, paste0("N = ",net_ems_1$nPerson))
 
 # Discussion
 
-To repeat from SECTION, we had six hypotheses, grouped into system and node level hypotheses. Both groups of hypotheses state the same:
+To repeat from @sec-hypotheses, we had six hypotheses, grouped into system and node level hypotheses. Both groups of hypotheses state the same:
 
 -   System level:
 
@@ -900,36 +825,6 @@ However, we found strong support for $H_2^S$, that a near-miss experience leads 
 *UPDATE 12/5/2023: What does it mean for the node to drop in centrality, viz. the idea that experience lowers System II intensity? Is increased centrality == increased intensity, or is it the other way around?*
 
 On the node level, the situation is very different. Overall, we found very little support for our hypotheses. We found marginal support for $H_1^N$: subjectively experienced probabilities of fire might become less central in the overall network after experiencing a near-miss experience. All other changes were non-significant.
-
-# NOTES, NOT FOR PUBLICATION
-
-## How to do Network Comparison Testing
-
--   Visual comparison -\> NB: Sparsity/density is a function of sample size in regularized networks!
-
--   Correlate two networks: Estimate networks -\> Extract weight matrices using object\$graph -\> Retrieve lower triangle using wm\[lower.tri(wm)\] -\> Correlate the two (cor) or scatter plot (plot)
-
-    -   NO SIG TESTING! 1) Based only on the edge weights, not the certainty with which these edges have been estimated!; 2) In some estimators, weights are not normally distributed; 3) Null hypothesis is wrong (H0: Zero correlation - we're looking at similarity!)
-
--   Network Comparison Test (NCT): 1) Calculate group-wise networks and retrieve metric of interest (e.g., difference in APL); 2) Randomly re-assign respondents to different groups (disregarding original divisions) and re-estimate networks to retrieve permuted metric; 3) Collect a reference distribution based on permuted metrics and significance test the real metric against this distribution (see textbook chapter 8 + van Borkulo et al. 2022)
-
-    -   Package `NetworkComparisonTest` (van Borkulo et al. 2022_HANDWRITTEN REF)
-    -   Performance is validated for: Network structure invariance; Edge strength invariance; Global strength invariance -\> Others are implemented but not yet validated (Still true?), but "no inherent reason" to believe that they would be bad to use
-    -   First, omnibus test of difference; then, confirmatory (multiple test-corrected!!! They suggest Holm-Bonferroni) tests of single edge differences; finally, testing overall connectivity difference (to see if density varies) using global strength
-
-## Why is NCT non-significant when networks clearly differ visually?
-
--   Network density is a function of sample size - smaller sample sizes yield sparser networks (textbook chapter 7 p. 123-129, especially fig 7.7)
-
--   EBICglasso is most robust to sample size variation, but has a lower specificity (more false positives) in low sample size context
-
-    -   Textbook ch. 7 p. 125: at N = 300, specificity is 0.66 and average false positive edge weight is 0.04; at N = 5000, specificity is 0.57 and average FP edge weight is 0.01
-
-    -   Note thus, that very low strengths can effectively be "ignored" - they are presumably false positives under EBICglasso
-
-    -   However, statistical tests will not ignore (or could you threshold the test???)
-
--   "At high sample size (e.g., N = 5,000), most model selection algorithms work well \[...\] at low sample size (e.g., N = 300), however, regularization methods (EBICglasso and mgm with CV selection) may be preferred" p. 125
 
 # References {#sec-references}
 

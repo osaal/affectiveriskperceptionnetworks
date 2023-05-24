@@ -16,7 +16,8 @@ csl: _FORMATTING/apa.csl
 execute:
   echo: false
   warning: false
-  cache: false
+  cache: refresh
+  freeze: false
 
 knitr:
   opts_chunk:
