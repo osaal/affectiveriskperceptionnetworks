@@ -1,5 +1,6 @@
 project:
   title: "affectiveriskperceptionnetworks"
+  type: website
   output-dir: _LOCAL/output
   
 format:
