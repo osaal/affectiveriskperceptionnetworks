@@ -4,3 +4,6 @@
 .Ruserdata
 _LOCAL/*
 /.quarto/
+_freeze/*
+/affectiveriskperceptionnetworks_cache/
+emergencyservicesattitudes2023.csv

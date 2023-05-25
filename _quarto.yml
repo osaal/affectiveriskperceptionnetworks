@@ -2,6 +2,7 @@ project:
   title: "affectiveriskperceptionnetworks"
   type: website
   output-dir: docs
+  # For website rendering, uncomment "type" and "output-dir"
   
 format:
   docx:
@@ -18,9 +19,5 @@ csl: _FORMATTING/apa.csl
 execute:
   echo: false
   warning: false
-  cache: refresh
-  freeze: false
-
-knitr:
-  opts_chunk:
-    cache.path: _LOCAL/cache/
+  cache: true
+  freeze: true

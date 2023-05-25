@@ -18,9 +18,6 @@ abstract: |
   osaal.github.io/affectiveriskperceptionnetworks
 date: last-modified
 date-format: long
-editor: visual
-editor_options: 
-  chunk_output_type: console
 ---
 
 ```{r article-setup, include=FALSE}
@@ -136,7 +133,7 @@ Thus, we have two groups with three hypotheses each:
 
 ```{r data-import}
 # Import raw data
-rawdata <- tibble(read.csv2("_LOCAL/input/emergencyservicesattitudes2023.csv"))
+rawdata <- tibble(read.csv2("emergencyservicesattitudes2023.csv"))
 ```
 
 We used the Finnish Emergency Services Attitudes 2023 material, consisting of N = 3055 survey respondents. The survey was collected between 17 January and 2 February 2023 as an on-line panel study, with sampling corresponding to central geographical, gender, and age distributions of the mainland Finnish population aged 18-79 years. Participation was voluntary and informed consent was retrieved.
@@ -701,7 +698,7 @@ comp_ems <- NCT(
 
 ::: {#tbl-networkcomps layout-nrow="3"}
 | Test               | Statistic                                                      | Significance                                      |
-|--------------------|----------------------------------------------------------------|---------------------------------------------------|
+|----------------|-------------------------------|-------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_direct$nwinv.real, 2)`            | $p =$ `r round(comp_direct$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_direct$glstrinv.real, 2)`     | $p =$ `r round(comp_direct$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_direct$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_direct$diffcen.pval[[1]], 4)` |
@@ -712,7 +709,7 @@ comp_ems <- NCT(
 : Direct Experience of Fire (`r length(comp_direct$glstrinv.perm)` permutations) {#tbl-comp-1}
 
 | Test               | Statistic                                                        | Significance                                        |
-|--------------------|------------------------------------------------------------------|-----------------------------------------------------|
+|----------------|-------------------------------|-------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_nearmiss$nwinv.real, 2)`            | $p =$ `r round(comp_nearmiss$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_nearmiss$glstrinv.real, 2)`     | $p =$ `r round(comp_nearmiss$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_nearmiss$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_nearmiss$diffcen.pval[[1]], 4)` |
@@ -723,7 +720,7 @@ comp_ems <- NCT(
 : Near Miss Experience of Fire (`r length(comp_nearmiss$glstrinv.perm)` permutations) {#tbl-comp-2}
 
 | Test               | Statistic                                                   | Significance                                   |
-|--------------------|-------------------------------------------------------------|------------------------------------------------|
+|----------------|-------------------------------|-------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_ems$nwinv.real, 2)`            | $p =$ `r round(comp_ems$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_ems$glstrinv.real, 2)`     | $p =$ `r round(comp_ems$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_ems$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_ems$diffcen.pval[[1]], 4)` |
