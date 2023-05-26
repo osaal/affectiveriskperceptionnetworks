@@ -252,7 +252,7 @@ div.csl-indent {
 <li>“Growth of tensions between social groups, polarization” [Polarization]</li>
 </ul>
 <p>For each variable, respondents judged their perceived subjective probability on a four-point scale as <em>very probable</em>, <em>somewhat probable</em>, <em>somewhat improbable</em>, <em>very improbable</em> and <em>cannot say</em>. These variables are later referred to as <em>risk perception variables</em>. Excluding the uncertain responses as missing values, the distributions are presented in <a href="#fig-dependents">Figure&nbsp;1</a>.</p>
-<div id="fig-dependents" class="cell quarto-layout-panel" data-hash="_LOCAL/cache/fig-dependents_13ff33c71f48e9c50a94296e7f2e74d1">
+<div id="fig-dependents" class="cell quarto-layout-panel" data-hash="affectiveriskperceptionnetworks_cache/html/fig-dependents_a311de75b0a51fc3e03d9a5d6bb9176f">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 33.3%;justify-content: center;">
@@ -380,7 +380,7 @@ div.csl-indent {
 </figure>
 </div>
 <p>The risks judged to be most likely on average were pandemics, illnesses, and hybrid threats. The least likely experiences were nuclear power plant disasters, wars against Finland, and workplace accidents. Judging from missing values, respondents were most certain about the probability of experiencing extreme weather phenomena, and least certain about workplace accidents (<a href="#fig-na-analysis">Figure&nbsp;2</a>).</p>
-<div class="cell" data-hash="_LOCAL/cache/fig-na-analysis_b24651867dc12c6a90293790b35bdd98">
+<div class="cell" data-hash="affectiveriskperceptionnetworks_cache/html/fig-na-analysis_cc1e89eea19939f382612379d4ea9b44">
 <div class="cell-output-display">
 <div id="fig-na-analysis" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -401,7 +401,7 @@ div.csl-indent {
 <li>Emergency services employment</li>
 </ul>
 <p>Respondents were asked whether they had had a direct experience of a fire in the past twelve months. They were similarly asked whether they had experienced a near-miss situation, i.e., a scenario that could have ended in a fire but did not. Finally, the respondents were asked whether they work in the emergency services in any capacity. These three variables constitute our substantive control variables, and operationalise three distinct hypotheses (see <a href="#sec-hypotheses">Section&nbsp;3</a>) regarding the network structure. Their descriptive statistics are presented in <a href="#fig-substantive-desc">Figure&nbsp;3</a>.</p>
-<div id="fig-substantive-desc" class="cell quarto-layout-panel" data-hash="_LOCAL/cache/fig-substantive-desc_da6db6735c07aba683ed144d76d32bda">
+<div id="fig-substantive-desc" class="cell quarto-layout-panel" data-hash="affectiveriskperceptionnetworks_cache/html/fig-substantive-desc_c25bc1de2bee37b011bee6046d10905a">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
@@ -454,7 +454,7 @@ div.csl-indent {
 <h2 class="anchored" data-anchor-id="sec-networkestimation">Network Estimation and Robustness</h2>
 <p>We first started by estimating the network model using the <code>EBICglasso</code> algorithm.</p>
 <p>To graphically plot the network, we modelled the resulting network using the MDS method. Shepard plots (<a href="#fig-mds-shepards">Figure&nbsp;4</a>) suggested that we use the spline model.</p>
-<div id="fig-mds-shepards" class="cell quarto-layout-panel" data-hash="_LOCAL/cache/fig-mds-shepards_d7ee43d753e23721f40500fd9a4c8b31">
+<div id="fig-mds-shepards" class="cell quarto-layout-panel" data-hash="affectiveriskperceptionnetworks_cache/html/fig-mds-shepards_baf947e71e39f9f217682622403eeb6a">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
@@ -498,7 +498,7 @@ div.csl-indent {
 <p><strong>Comment: Check that Spearman and polychoric produces the same result (when matrix is definite positive).</strong></p>
 <p>We then retrieved a robust model of the graph using the <code>bootnet</code> package <span class="citation" data-cites="epskamp2018b">(<a href="#ref-epskamp2018b" role="doc-biblioref">Epskamp et al., 2018</a>)</span>. The model uses the <code>EBICglasso</code> algorithm, which searches for the model that locally minimises the extended Bayesian Information Criterion <span class="citation" data-cites="epskamp2018b foygel2010">(<a href="#ref-epskamp2018b" role="doc-biblioref">Epskamp et al., 2018</a>; <a href="#ref-foygel2010" role="doc-biblioref">Foygel &amp; Drton, 2010</a>)</span>. The estimation is done using Spearman correlations because our data are expected non-normally distributed. While polychoric correlations would be possible, the small sample sizes in sub-population comparison may result in a non-positive definite correlation matrix, which disables analysis. We retrieved both non-parametric and case-dropping networks for analysis.</p>
 <p>The robust network is plotted using the two-dimensional MDS solution as its layout, enabling us to interpret graphical distance as a proxy for vertex strength. <a href="#fig-bootstrapped-model-1">Figure&nbsp;5</a> shows the network graph.</p>
-<div class="cell" data-hash="_LOCAL/cache/fig-bootstrapped-model-1_1d2088631f037f506783c13b1aeb0291">
+<div class="cell" data-hash="affectiveriskperceptionnetworks_cache/html/fig-bootstrapped-model-1_1b2fa82f618db3eacbaad64e7b3556bd">
 <div class="cell-output-display">
 <div id="fig-bootstrapped-model-1" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -508,7 +508,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div class="cell" data-hash="_LOCAL/cache/tbl-network-stats_a6bfdcd7b23e1e5df47875f9e54c3d11">
+<div class="cell" data-hash="affectiveriskperceptionnetworks_cache/html/tbl-network-stats_ede2e8c06d2f5baa05192808c2d5b86b">
 <div class="cell-output-display">
 <div id="tbl-network-stats" class="anchored">
 <table class="table table-sm table-striped small">
@@ -705,7 +705,7 @@ div.csl-indent {
 <p>Betweenness, however, is much more varied. Weather presents a betweenness of zero, meaning that it does not feature in any shortest path connection in the network. At the other end, Environmental and Illness feature in fourteen shortest paths, thus being very central nodes in the network.</p>
 <p>As there are very few negative connections, expected influence mirrors strength for most nodes. Fire, Nuclear, Work, Illness, Operational, and Hybrid present at least one negative connection, which results in their expected influence being slightly lower than their strength.</p>
 <p><a href="#tbl-sml">Table&nbsp;2</a> shows the smallworldness statistics for the network. The smallworldness index is not substantially larger than either 1 or 3, suggesting that the network is not a small-world network <span class="citation" data-cites="humphries2008 newman2003">(<a href="#ref-humphries2008" role="doc-biblioref">Humphries &amp; Gurney, 2008</a>; <a href="#ref-newman2003" role="doc-biblioref">Newman, 2003</a>)</span>. Neither transitivity nor average path length (APL) is substantially higher than their randomly generated counterparts, further suggesting that the network is not considered a small-world network.</p>
-<div class="cell" data-hash="_LOCAL/cache/tbl-sml_53d28cf3edd311633e75f30a62eeae70">
+<div class="cell" data-hash="affectiveriskperceptionnetworks_cache/html/tbl-sml_ba6d7f3140f0e91692287a136aed7b8f">
 <div class="cell-output-display">
 <div id="tbl-sml" class="anchored">
 <table class="table table-sm table-striped small">
@@ -739,7 +739,7 @@ div.csl-indent {
 </div>
 </div>
 </div>
-<div class="cell" data-hash="_LOCAL/cache/fig-bootstrapped-model-2_1bc3c20054c4e38ac35ec7b85bcce9df">
+<div class="cell" data-hash="affectiveriskperceptionnetworks_cache/html/fig-bootstrapped-model-2_362fd2c36b51d92faff4cac97eed6a55">
 <div class="cell-output-display">
 <div id="fig-bootstrapped-model-2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -781,7 +781,7 @@ div.csl-indent {
 </tbody>
 </table>
 </div>
-<div class="cell" data-hash="_LOCAL/cache/fig-bootstrapped-model-3_588881c6c3181403e704f2158842a7e2">
+<div class="cell" data-hash="affectiveriskperceptionnetworks_cache/html/fig-bootstrapped-model-3_0d9299eb5d29543dbf5658f36e9606a9">
 <div class="cell-output-display">
 <div id="fig-bootstrapped-model-3" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -792,7 +792,7 @@ div.csl-indent {
 </div>
 </div>
 <p><a href="#fig-bootstrapped-model-4">Figure&nbsp;8</a> shows significance tests of the differences in connection strengths between each node-pair vertex, ordered by connection strength in the original estimated network. In other words, we tested whether two connections significantly differ from each other at <span class="math inline">\(\alpha = 0.05\)</span>. Around half of the comparisons are significant. The Work-Illness vertex is significantly different from every other vertex. Traffic-Fire and Hybrid-Polarization are both significantly different from all other vertices except from each other.</p>
-<div class="cell" data-hash="_LOCAL/cache/fig-bootstrapped-model-4_5b07d28df46faf92c53d0edc8fcd0976">
+<div class="cell" data-hash="affectiveriskperceptionnetworks_cache/html/fig-bootstrapped-model-4_fd67c59b323c37eb77164424706c68f2">
 <div class="cell-output-display">
 <div id="fig-bootstrapped-model-4" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
@@ -821,9 +821,9 @@ div.csl-indent {
 <table class="table">
 <caption>(a) Direct Experience of Fire (1000 permutations)</caption>
 <colgroup>
-<col style="width: 14%">
-<col style="width: 47%">
-<col style="width: 37%">
+<col style="width: 22%">
+<col style="width: 43%">
+<col style="width: 34%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -836,7 +836,7 @@ div.csl-indent {
 <tr class="odd">
 <td style="text-align: left;">Network variance</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{O} =\)</span> 0.11</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.5365</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.5295</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Global strength</td>
@@ -846,22 +846,22 @@ div.csl-indent {
 <tr class="odd">
 <td style="text-align: left;">Closeness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{C} =\)</span> 0</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.0779</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.0909</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Betweenness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{B} =\)</span> -7</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1459</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1598</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Strength</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{S}^{l} =\)</span> -0.14</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.0619</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.0669</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Expected Influence</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{EI} =\)</span> -0.14</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.049</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.046</td>
 </tr>
 </tbody>
 </table>
@@ -872,9 +872,9 @@ div.csl-indent {
 <table class="table">
 <caption>(b) Near Miss Experience of Fire (1000 permutations)</caption>
 <colgroup>
-<col style="width: 14%">
-<col style="width: 47%">
-<col style="width: 38%">
+<col style="width: 22%">
+<col style="width: 43%">
+<col style="width: 34%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -887,32 +887,32 @@ div.csl-indent {
 <tr class="odd">
 <td style="text-align: left;">Network variance</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{O} =\)</span> 0.15</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.006</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.012</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Global strength</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{S}^{g} =\)</span> 0.17</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.002</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.003</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Closeness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{C} =\)</span> 0</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.4845</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.4705</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Betweenness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{B} =\)</span> 1</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.9061</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.9221</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Strength</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{S}^{l} =\)</span> 0.01</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.8931</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.8831</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Expected Influence</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{EI} =\)</span> 0.01</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.8731</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.8811</td>
 </tr>
 </tbody>
 </table>
@@ -923,9 +923,9 @@ div.csl-indent {
 <table class="table">
 <caption>(c) Emergency Services Employment (1000 permutations)</caption>
 <colgroup>
-<col style="width: 15%">
-<col style="width: 47%">
-<col style="width: 37%">
+<col style="width: 22%">
+<col style="width: 43%">
+<col style="width: 34%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -938,7 +938,7 @@ div.csl-indent {
 <tr class="odd">
 <td style="text-align: left;">Network variance</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{O} =\)</span> 0.37</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.0559</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.035</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Global strength</td>
@@ -953,17 +953,17 @@ div.csl-indent {
 <tr class="even">
 <td style="text-align: left;">Betweenness</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{B} =\)</span> 8</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.2887</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.2438</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">Strength</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{S}^{l} =\)</span> 0.24</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1808</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1369</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">Expected Influence</td>
 <td style="text-align: left;"><span class="math inline">\(\Delta_{EI} =\)</span> 0.24</td>
-<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1758</td>
+<td style="text-align: left;"><span class="math inline">\(p =\)</span> 0.1389</td>
 </tr>
 </tbody>
 </table>
@@ -975,7 +975,7 @@ div.csl-indent {
 <p>Near-miss experiences have a stronger effect on the network structure (<a href="#tbl-comp-2">Table&nbsp;4 (b)</a>). Network variance and global strength are both significantly different, suggesting that a change in overall network structure has occurred. In both cases, the statistic has grown in the network estimated from respondents that have experienced a near miss. In other words: the network seems to be slightly denser in people who have nearly experienced a fire.</p>
 <p>Finally, working in emergency services is related to a weak effect on network structure, but inverse to that of a direct fire experience (<a href="#tbl-comp-3">Table&nbsp;4 (c)</a>). Network variance is significantly different, indicating that one or more edges have distinctly changed. However, global strength difference is non-significant, suggesting that these changes have not resulted in an overall change in the total edge strength of the network. In other words: working in emergency services is related to a shift in network structure, but not an increase or decrease in density <em>per se</em>.</p>
 <p>For the Fire node, no changes seem to have occurred in either the near-miss or the EMS employment comparisons. However, for individuals who have a direct fire experience, Expected Influence has dropped significantly. This suggests that the connections between Fire and other nodes has grown slightly more negative. Because the network does not show any negative edges (<a href="#fig-comp-graphs-2">Figure&nbsp;9 (b)</a>), this change corresponds to a drop in intensity of positive connections. The Fire node also shows marginally significant changes on closeness and strength in the direct experience comparison. The change in strength mirrors that of the EI change, further suggesting that the centrality of Fire has slightly dropped.</p>
-<div id="fig-comp-graphs" class="cell quarto-layout-panel" data-hash="_LOCAL/cache/fig-comp-graphs_047f02c09e383b177914120df9530274">
+<div id="fig-comp-graphs" class="cell quarto-layout-panel" data-hash="affectiveriskperceptionnetworks_cache/html/fig-comp-graphs_160b022170b7f9df9ede3f41bf16fba7">
 <figure class="figure">
 <div class="quarto-layout-row quarto-layout-valign-top">
 <div class="cell-output-display quarto-layout-cell quarto-layout-cell-subref" style="flex-basis: 50.0%;justify-content: center;">
