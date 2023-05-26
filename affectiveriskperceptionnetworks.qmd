@@ -11,9 +11,11 @@ abstract: |
   
   We recently decided to divide the paper into two: one empirical section for a journal,
   and one theoretical discussion for an invited book chapter.
-  The formatting is still very all-over-the-place, I apologize for any illegible graphics!
   
-  A legible online version is temporarily available at my website:
+  We especially welcome comments and discussion regarding the theoretical background.
+  Ideas, notes, suggestions for reading, etc., welcome!
+  
+  I did not have time to fix figure formatting in the PDF version, so please see the online version for better quality images:
     
   osaal.github.io/affectiveriskperceptionnetworks
 date: last-modified
@@ -37,13 +39,13 @@ set.seed(12345)
 
 # Previous Research and Theory {#sec-previous}
 
-## A Preliminary Definition of Risk, Risk Perception, and Resilience
+## A Preliminary Definition of Risk, Risk Perception, and Resilience {#sec-definition}
 
 The usage of the three key words (risk, risk perception, and resilience) in the research literature is varied. Some attempts have been made at collating these divergent definitions, notably by Aven [-@aven2022]. They present six distinct perspectives, roughly named the disjunct, broader disjunct, event, consequence, undesirable potentials, and combination perspectives. Depending on the perspective, risks are defined variably as reduction in functionality, events, consequences, and/or uncertainties related to consequences. Similarly, resilience is variably defined as recovering ability, reaction ability, or even not defined at all [@aven2022].
 
 The problems with most of these perspectives, according to Aven [-@aven2022], is that they distinctly draw lines between risks and resilience. Particularly in the two disjunct perspectives as well as the event perspective, the risk ends once the event is declared over and the recovery phase as begun - the two stages are incommensurable.
 
-## Risk and Systems
+## Risk and Systems {#sec-risksystems}
 
 Perceptions of flood risk in particular have been found to correlate with perceptions of other technological risks [@zhai2008].
 
@@ -55,13 +57,17 @@ Non-deterministic effects cannot be adequately reduced to deterministic models.
 
 However, risk ontology is not the same as risk perception.
 
-## Risk Perception
+## Risk Perception {#sec-perception}
 
 Risk perception has been widely studied in the past two decades, but is still lacking a coherent theoretical framework [@kellens2013]. Generally speaking, perception has been found to be related to both hazard experiences and reactive behaviour.
 
 Perception is related to behaviour in some way, but the causal connection is unclear [@dekoning2017]. It has been shown that post-event risk decision-making is drastically reactive to the event [@slovic2004; @gallagher2014]. The time after event is also very relevant, with post-event risk perception not only falling, but falling at a speed derivative of the time post-event [@atreya2013; @bin2013; @gallagher2014]. One study found that storm risk perception drops below objective risk probabilities given enough time between events, but rises rapidly upon the following event [@magliocca2018].
 
-## Experiences and Perception
+Lately, attempts at modelling risk perception as a complex system have been made with fruitful results. Particularly agent-based modelling has been applied to individual risk perception in coal mining [@nai-we2015] and water management [@hyun2019]. Other modelling efforts include system dynamics modelling of risk behaviour, including perceptions, in the COVID-19 pandemic [@korzebor2023] and ecosystem modelling of risk perception in fisheries [@vanputten2011].
+
+Traditional psychometric efforts have been made in risk perception studies, but to our knowledge, no studies have applied the network paradigm. A study on risk perceptions among mineworkers found a two-factor structure termed "Dreaded" and "Unknown" [@alrawad2022].
+
+## Experiences and Perception {#sec-experiences}
 
 The previous literature generally distinguishes between two types of experience: **direct** and **near-miss** experiences. Direct experiences are, as the name implies, directly and non-mediately experienced, while near-miss experiences are situations that could have resulted in the expression of the hazard event, but did not. As an example, a direct experience of a fire could be a stove fire in the individual's kitchen, while a near-miss experience of a fire could be a situation where the individual noticed that they had left flammable materials on an active stove-top, but managed to remove the materials prior to them catching fire.
 
@@ -83,28 +89,19 @@ Imagined experience represents near misses, but with an emphasis on the imaginat
 
 Mediated experience is the experiencing the risk as portrayed in media [cf. @zhou2020 p. 15]. This differs from the extended experience in that the originator of the message is not a significant other of the individual. Risks are experienced mediated all the time: from COVID-19 discussions on social media to news events of the war in Ukraine, individuals are constantly exposed to mediated experiences. In risk perception research, this topic has been studied under the sub-topic of risk communication studies.
 
-One motivation for using these distinctive forms of experience may be drawn from social phenomenology.
-
--   The base world of work and the doxic position [@heidegger1962 p. (56-57); @schütz1962 p. 227; @bégout2007].
--   Action oriented towards goals or projects [@schütz1967 p. 59-64; @heidegger1962 p. (145)].
--   Ideal-typical projection requires familiarity and typicality [@schütz2011 p. 126-128].
--   Recognition of familiarity/typicality occurs through relevance systems: topical, interpretational, and motivational relevance [@schütz2011 p. 94-95, 108, 113, 119].
-
 # Hypotheses {#sec-hypotheses}
 
-There are two main findings in the previous literature:
+We test four hypotheses in total. These are divided into two groups: the system level and the node level hypotheses:
 
-1.  Direct hazard experiences lead to a decrease in perception of risk probability.
-2.  Near-miss hazard experiences lead to an increase in perception of risk probability.
+-   System level:
 
-To investigate the support for these findings, we apply network analysis. Because networks can be analysed on both system and node levels, we thus divide each finding into two distinct propositions:
+    -   $H_1^S:$ Experiencing a fire leads to a sparser risk perception network
+    -   $H_2^S:$ Experiencing a near-miss leads to a denser risk perception network
 
-1.  Direct hazard experiences lead to a decrease in perception of risk probability on the:
-    1.  System level, and the
-    2.  Node level.
-2.  Near-miss hazard experiences lead to an increase in perception of risk probability on the:
-    1.  System level, and the
-    2.  Node level.
+-   Node level:
+
+    -   $H_1^N:$ Experiencing a fire leads to a decrease in the centrality of fire in the risk perception network
+    -   $H_2^N:$ Experiencing a near-miss leads to an increase in the centrality of fire in the risk perception network
 
 The system level test cannot distinguish between different objects of perception, as we are testing a whole network composed of multiple modes. Thus, the system level test judges a more general causality: that the experience (whether near-miss or direct) causally affects the system of risk perception.
 
@@ -112,18 +109,11 @@ The system- and node-level hypotheses are independent. Because of the complex ca
 
 In a similar vein, we suggest that the risk perception network and its constituent nodes may vary independently, giving rise to potential difference in structural and constituent effects. Thus, we divide the hypotheses into two categories.
 
-Further, we introduce a proxy variable measuring direct effect, whether an individual works in the emergency services.
+The direct experience hypotheses $H_1^S$ and $H_1^N$ test the second form of perception-modifying experiences (see @sec-experiences), direct intensive experiences. Based on previous research, we hypothesise that direct intensive experiences lead to a weakening of the affective risk system in favour of the analytic risk system. Thus, evaluations of the probability of risks in general, and of the specific risk that was experienced (e.g., a fire), should become more independent from other risks.
 
-Thus, we have two groups with three hypotheses each:
+The near-miss hypotheses $H_2^S$ and $H_2^N$, correspondingly, test the fourth form of perception-modifying experiences, imagined experiences. Here, we hypothesise that experiencing a near-miss leads to a strengthening of the affective system, increasing the connections between risk probability assessments in general, and between the risk that was nearly experienced and other risks in specific.
 
-1.  System level:
-    1.  Experiencing a fire leads to a sparser risk perception network
-    2.  Experiencing a near-miss leads to a denser risk perception network
-    3.  Working in emergency services leads to a sparser risk perception network
-2.  Node level:
-    1.  Experiencing a fire leads to a decrease in the centrality of fire in the risk perception network
-    2.  Experiencing a near-miss leads to an increase in the centrality of fire in the risk perception network
-    3.  Working in emergency services leads to a decrease in the the centrality of fire in the risk perception network
+At this point, we do not test the other three forms of risk experiences.
 
 # Materials and Methods {#sec-materialsandmethods}
 
@@ -139,8 +129,6 @@ rawdata <- tibble(read.csv2("emergencyservicesattitudes2023.csv"))
 We used the Finnish Emergency Services Attitudes 2023 material, consisting of N = 3055 survey respondents. The survey was collected between 17 January and 2 February 2023 as an on-line panel study, with sampling corresponding to central geographical, gender, and age distributions of the mainland Finnish population aged 18-79 years. Participation was voluntary and informed consent was retrieved.
 
 ### Dependent Variables {#sec-dependentvariables}
-
-**Comment: Move descriptive statistics into Results?**
 
 In the survey, respondents were asked to gauge the probability that they would encounter any of fourteen listed risks or threats in their personal lives. The risks are listed below, with short-hand names in brackets.
 
@@ -231,15 +219,12 @@ vis_miss(data)
 
 ### Control Variables {#sec-controlvariables}
 
-**Comment: Remove gender, age and degree of urbanisation completely? Only used to check that data represents general population, not used in main analysis!**
-
-We used three substantive control variables:
+We used two control variables:
 
 -   Direct experience of fire
 -   Near miss-experience of fire
--   Emergency services employment
 
-Respondents were asked whether they had had a direct experience of a fire in the past twelve months. They were similarly asked whether they had experienced a near-miss situation, i.e., a scenario that could have ended in a fire but did not. Finally, the respondents were asked whether they work in the emergency services in any capacity. These three variables constitute our substantive control variables, and operationalise three distinct hypotheses (see @sec-hypotheses) regarding the network structure. Their descriptive statistics are presented in @fig-substantive-desc.
+Respondents were asked whether they had had a direct experience of a fire in the past twelve months. They were similarly asked whether they had experienced a near-miss situation, i.e., a scenario that could have ended in a fire but did not. These two variables operationalise two distinct hypotheses (see @sec-hypotheses) regarding the network structure. Their descriptive statistics are presented in @fig-substantive-desc.
 
 ```{r}
 #| label: fig-substantive-desc
@@ -247,15 +232,13 @@ Respondents were asked whether they had had a direct experience of a fire in the
 #| fig-subcap: 
 #|   - "Direct Experience of Fire"
 #|   - "Near-Miss Experience of Fire"
-#|   - "Emergency Services Employment"
-#| layout: [[1, 1], [1, -1]]
+#| layout: [[1, 1]]
 #| cache: true
 
 data <- rawdata %>%
-  dplyr::select(question_39_row_1:question_41_row_1) %>%
+  dplyr::select(question_39_row_1:question_40) %>%
   rename(Direct = question_39_row_1,
-         Near.Miss = question_40,
-         EMS = question_41_row_1) %>%
+         Near.Miss = question_40) %>%
   bind_cols(data, .)
 
 data$Direct <- case_match(
@@ -272,13 +255,6 @@ data$Near.Miss <- case_match(
   3 ~ NA,
   .default = NA
 )
-data$EMS <- case_match(
-  data$EMS,
-  1 ~ 1,
-  2 ~ 0,
-  3 ~ NA,
-  .default = NA
-)
 
 subsdata <- tibble(
     "Direct" = factor(
@@ -290,17 +266,11 @@ subsdata <- tibble(
       data$Near.Miss,
       levels = c(0:1),
       labels = c("No", "Yes")
-    ),
-    "EMS" = factor(
-      data$EMS,
-      levels = c(0:1),
-      labels = c("No", "Yes")
     )
   )
 
 ggplot(subsdata) + geom_bar(aes(x = Direct))
 ggplot(subsdata) + geom_bar(aes(x = Near.Miss))
-ggplot(subsdata) + geom_bar(aes(x = EMS))
 ```
 
 ## Methods {#sec-methods}
@@ -311,9 +281,13 @@ We started by fitting a model for the graphical representation of networks. We m
 
 For the main analysis, we fitted a pairwise Markov random field (PMRF) model as a Gaussian graphical model (GGM). We used Spearman correlations and the EBICglasso estimator function [@epskamp2012; @foygel2010]. We fitted two models: a non-parametric model and a case-dropping network model. The former was used for presenting and analysing the network as a graph and as a plot of centrality indices, and the latter was used for analysing the stability of centrality indices on both system- and node levels [@epskamp2018b].
 
-**Comment: Add more description here, especially in how to interpret CS coefficients and bootstrapped centrality measures.**
+For robustness checks, we use the case-dropping model and retrieve *correlation stability (CS) coefficients*. The case-dropped model can be correlated with the original model to estimate how well the case-dropped model centrality measures represent the original. The CS coefficients then determine the proportion of cases that may be dropped whilst still retaining a correlation of $r = p$, where $p$ is the preferred correlational level, in $(1-\alpha)/100$ % of cases. For this study, we use the default values of $r = 0.7$ and $95$ per cent [@epskamp2018b].
 
-To compare between groups, we estimated group-wise Gaussian graphical models and used the network comparison test (NCT) as outlined by Fried, Epskamp, Veerman and van Borkulo [-@fried2022].
+Previous research suggests that, when interpreting differences between centralities (e.g., if one risk perception is more central to the network than another), the centrality stability coefficient should preferably be above 0.5, with higher equalling a more stable centrality measure [@epskamp2018b; @fried2022].
+
+To compare between groups, we estimated group-wise Gaussian graphical models and used the network comparison test (NCT) as outlined by Fried, Epskamp, Veerman and van Borkulo [-@fried2022]. The NCT works by calculating a test statistic of choice, constructing a distribution of the statistic using random rearranging sub-sampling of the network data, and comparing the simulated statistic under a null hypothesis to the observed statistic [@fried2022, pp. 143-144]. We retrieve two levels of tests: *omnibus* tests measuring differences in global strength and network variance, and *specific* tests measuring differences in strength, closeness, betweenness, and expected influence of the "Fire" node in either group.
+
+Parts of this manuscript have been written using the large language model (LLM) Perplexity.AI [@perplexityai2023]. The LLM has been used to support literature review. No data processing or data analysis has been conducted using the LLM.
 
 # Results {#sec-results}
 
@@ -366,9 +340,7 @@ plot(mds_spline,
      sub = paste0("Stress = ", round(mds_spline$stress, 2)))
 ```
 
-**Comment: Check that Spearman and polychoric produces the same result (when matrix is definite positive).**
-
-We then retrieved a robust model of the graph using the `bootnet` package [@epskamp2018b]. The model uses the `EBICglasso` algorithm, which searches for the model that locally minimises the extended Bayesian Information Criterion [@epskamp2018b; @foygel2010]. The estimation is done using Spearman correlations because our data are expected non-normally distributed. While polychoric correlations would be possible, the small sample sizes in sub-population comparison may result in a non-positive definite correlation matrix, which disables analysis. We retrieved both non-parametric and case-dropping networks for analysis.
+We then retrieved a robust model of the graph using the `bootnet` package [@epskamp2018b]. The model uses the `EBICglasso` algorithm, which searches for the model that locally minimises the extended Bayesian Information Criterion [@epskamp2018b; @foygel2010]. The estimation is done using Spearman correlations because our data are expected non-normally distributed. While polychoric correlations would be possible, the small sample sizes in sub-population comparison may result in a non-positive definite correlation matrix, which disables analysis.^[To test equivalency, we retrieved a bootstrapped network using polychoric correlations with the `cor_auto` method in `bootnet`, and correlated the resulting network with the network retrieved using Spearman correlations. The resulting Pearson correlation was 0.992. Thus, under our conditions, the two methods produce virtually the same results, and we opt for the simpler Spearman correlations due to calculation efficiency.] We retrieved both non-parametric and case-dropping networks for analysis.
 
 ```{r}
 #| label: bootstraps
@@ -425,6 +397,8 @@ plot(
   bootstrap$sample,
   layout = mds_spline$conf,
   edge.labels = TRUE,
+  theme = "colorblind",
+  maximum = 0.5
 )
 ```
 
@@ -526,10 +500,6 @@ centralityPlot(
   )
 ```
 
-The case-dropped models can be correlated with the original model to estimate how well the case-dropped model centrality measures represent the original. The *correlation stability coefficient* (CS coefficient) then determines the proportion of cases that may be dropped whilst still retaining a correlation of $r = p$, where $p$ is the preferred correlational level, in $(1-\alpha)/100$ % of cases. For this study, we use the default values of $r = 0.7$ and $95$ per cent.
-
-Previous research suggests that, when interpreting differences between centralities (e.g., if one risk perception is more central to the network than another), the centrality stability coefficient should preferably be above 0.5, with higher equalling a more stable centrality measure [@epskamp2018b; @fried2022].
-
 @fig-bootstrapped-model-3 shows the stability of the centrality measures when case-dropping. The CS coefficients are listed in @tbl-cscoef. Strength, closeness and expected influence are all stable, with up to 75 per cent of cases having to be dropped before the correlation drops below 0.7 in 95% of bootstraps. However, betweenness does not seem to be stable enough to interpret, at a CS coefficient of only `r round(stability[["betweenness"]], 2)`.
 
 | Measure            | CS coefficient                                 |
@@ -614,36 +584,11 @@ net_nearmiss_1 <- data %>%
     verbose = FALSE,
     nonPositiveDefinite = "continue"
   )
-
-net_ems_0 <- data %>%
-  dplyr::filter(EMS == 0) %>%
-  dplyr::select(Weather:Polarization) %>%
-  estimateNetwork(
-    default = "EBICglasso",
-    corMethod = "cor",
-    corArgs = list(method = "spearman"),
-    verbose = FALSE,
-    nonPositiveDefinite = "continue"
-  )
-net_ems_1 <- data %>%
-  dplyr::filter(EMS == 1) %>%
-  dplyr::select(Weather:Polarization) %>%
-  estimateNetwork(
-    default = "EBICglasso",
-    corMethod = "cor",
-    corArgs = list(method = "spearman"),
-    verbose = FALSE,
-    nonPositiveDefinite = "continue"
-  )
 ```
 
-We compared networks conditioned on the three substantive control variables (see @sec-controlvariables): Direct experience of fire, near miss-experience of fire, and emergency services employment. In each case, we expect a lower global density - reflecting the weakening of System II risk assessment in favour of System I. We further hypothesised that the node strength of fire experience would follow a unique development:
+We compared networks conditioned on the two control variables (see @sec-controlvariables): Direct experience of fire and near miss-experience of fire. On the system level, we expected a sparser network among those respondents who had experienced a fire, and a denser network among those who had experienced a near-miss event. On the node level, we expected a decrease in the centrality of the Fire node among the direct experience group, and an increase in Fire centrality among the near-miss experience group.
 
--   Experiencing a fire leads to higher probability (the salience hypothesis).
--   Experiencing a near-miss leads to lower probability (the false certainty hypothesis).
--   Working in emergency services leads to higher probability (the culture hypothesis).
-
-The statistics are shown in @tbl-networkcomps. The networks are graphed in @fig-comp-graphs.
+The statistics are shown in @tbl-networkcomps. The networks are graphed in @fig-comp-graphs, where each row is a comparison, the first two columns show the compared groups, and the third column shows the difference between the groups. Note, that no node connection changes have been significance-tested.
 
 ```{r}
 #| label: networkcomps
@@ -679,26 +624,11 @@ comp_nearmiss <- NCT(
   nCores = 16,
   make.positive.definite = TRUE
 )
-
-comp_ems <- NCT(
-  net_ems_0,
-  net_ems_1,
-  gamma = 0.5,
-  it = 1000,
-  abs = TRUE,
-  test.centrality = TRUE,
-  centrality = c("closeness", "betweenness", "strength", "expectedInfluence"),
-  nodes = "Fire",
-  progressbar = FALSE,
-  verbose = FALSE,
-  nCores = 16,
-  make.positive.definite = TRUE
-)
 ```
 
-::: {#tbl-networkcomps layout-nrow="3"}
+::: {#tbl-networkcomps layout-nrow="2"}
 | Test               | Statistic                                                      | Significance                                      |
-|----------------|-------------------------------|-------------------------|
+|------------------|------------------------------|------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_direct$nwinv.real, 2)`            | $p =$ `r round(comp_direct$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_direct$glstrinv.real, 2)`     | $p =$ `r round(comp_direct$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_direct$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_direct$diffcen.pval[[1]], 4)` |
@@ -709,7 +639,7 @@ comp_ems <- NCT(
 : Direct Experience of Fire (`r length(comp_direct$glstrinv.perm)` permutations) {#tbl-comp-1}
 
 | Test               | Statistic                                                        | Significance                                        |
-|----------------|-------------------------------|-------------------------|
+|------------------|------------------------------|------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_nearmiss$nwinv.real, 2)`            | $p =$ `r round(comp_nearmiss$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_nearmiss$glstrinv.real, 2)`     | $p =$ `r round(comp_nearmiss$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_nearmiss$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_nearmiss$diffcen.pval[[1]], 4)` |
@@ -719,29 +649,8 @@ comp_ems <- NCT(
 
 : Near Miss Experience of Fire (`r length(comp_nearmiss$glstrinv.perm)` permutations) {#tbl-comp-2}
 
-| Test               | Statistic                                                   | Significance                                   |
-|----------------|-------------------------------|-------------------------|
-| Network variance   | $\Delta_{O} =$ `r round(comp_ems$nwinv.real, 2)`            | $p =$ `r round(comp_ems$nwinv.pval, 4)`        |
-| Global strength    | $\Delta_{S}^{g} =$ `r round(comp_ems$glstrinv.real, 2)`     | $p =$ `r round(comp_ems$glstrinv.pval, 4)`     |
-| Closeness          | $\Delta_{C} =$ `r round(comp_ems$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_ems$diffcen.pval[[1]], 4)` |
-| Betweenness        | $\Delta_{B} =$ `r round(comp_ems$diffcen.real[[2]], 2)`     | $p =$ `r round(comp_ems$diffcen.pval[[2]], 4)` |
-| Strength           | $\Delta_{S}^{l} =$ `r round(comp_ems$diffcen.real[[3]], 2)` | $p =$ `r round(comp_ems$diffcen.pval[[3]], 4)` |
-| Expected Influence | $\Delta_{EI} =$ `r round(comp_ems$diffcen.real[[4]], 2)`    | $p =$ `r round(comp_ems$diffcen.pval[[4]], 4)` |
-
-: Emergency Services Employment (`r length(comp_ems$glstrinv.perm)` permutations) {#tbl-comp-3}
-
 Network NCT results by substantive control variable
 :::
-
-**UPDATE 12/5/2023: Check why EMS Global strength is p = 1, closeness is C = 0 and p = NA. There were some Github discussions about similar problems - is this, too, a bug?**
-
-Direct experience of fire is related to a weak effect on network structure (@tbl-comp-1). Global strength is significantly different, indicating that the overall connectivity has changed between networks. However, network variance is not significantly different. Since the network is dense and non-smallworld, the difference between variance and strength may be due to small changes in many network edges leading to a overall significant change in the sum of edge strength, while leaving individual maximum changes small [see @vanborkulo2022].
-
-Near-miss experiences have a stronger effect on the network structure (@tbl-comp-2). Network variance and global strength are both significantly different, suggesting that a change in overall network structure has occurred. In both cases, the statistic has grown in the network estimated from respondents that have experienced a near miss. In other words: the network seems to be slightly denser in people who have nearly experienced a fire.
-
-Finally, working in emergency services is related to a weak effect on network structure, but inverse to that of a direct fire experience (@tbl-comp-3). Network variance is significantly different, indicating that one or more edges have distinctly changed. However, global strength difference is non-significant, suggesting that these changes have not resulted in an overall change in the total edge strength of the network. In other words: working in emergency services is related to a shift in network structure, but not an increase or decrease in density *per se*.
-
-For the Fire node, no changes seem to have occurred in either the near-miss or the EMS employment comparisons. However, for individuals who have a direct fire experience, Expected Influence has dropped significantly. This suggests that the connections between Fire and other nodes has grown slightly more negative. Because the network does not show any negative edges (@fig-comp-graphs-2), this change corresponds to a drop in intensity of positive connections. The Fire node also shows marginally significant changes on closeness and strength in the direct experience comparison. The change in strength mirrors that of the EI change, further suggesting that the centrality of Fire has slightly dropped.
 
 ```{r}
 #| label: fig-comp-graphs
@@ -749,79 +658,91 @@ For the Fire node, no changes seem to have occurred in either the near-miss or t
 #| fig-subcap:
 #| -  "No direct experience"
 #| -  "Direct experience"
+#| -  "Change with direct experience"
 #| -  "No near-miss experience"
 #| -  "Near-miss experience"
-#| -  "Not in EMS employment"
-#| -  "In EMS employment"
-#| layout: "[[1,1],[1,1],[1,1]]"
+#| -  "Change with near-miss experience"
+#| layout: "[[1,1,1],[1,1,1]]"
+#| column: screen-inset-shaded
 
 qgraph(net_direct_0$graph,
        layout = mds_spline$conf,
        edge.labels = TRUE,
        maximum = 0.5,
-       details = TRUE)
+       details = TRUE,
+       theme = "colorblind")
 text(-1, -1, paste0("N = ",net_direct_0$nPerson))
 
 qgraph(net_direct_1$graph,
        layout = mds_spline$conf,
        edge.labels = TRUE,
        maximum = 0.5,
-       details = TRUE)
+       details = TRUE,
+       theme = "colorblind")
 text(-1, -1, paste0("N = ",net_direct_1$nPerson))
+
+net_direct_change <- net_direct_1$graph - net_direct_0$graph
+qgraph(net_direct_change,
+       layout = mds_spline$conf,
+       edge.labels = TRUE,
+       maximum = 0.5,
+       details = TRUE,
+       theme = "colorblind")
 
 qgraph(net_nearmiss_0$graph,
        layout = mds_spline$conf,
        edge.labels = TRUE,
        maximum = 0.5,
-       details = TRUE)
+       details = TRUE,
+       theme = "colorblind")
 text(-1, -1, paste0("N = ",net_nearmiss_0$nPerson))
 
 qgraph(net_nearmiss_1$graph,
        layout = mds_spline$conf,
        edge.labels = TRUE,
        maximum = 0.5,
-       details = TRUE)
+       details = TRUE,
+       theme = "colorblind")
 text(-1, -1, paste0("N = ",net_nearmiss_1$nPerson))
 
-qgraph(net_ems_0$graph,
+net_nearmiss_change <- net_nearmiss_1$graph - net_nearmiss_0$graph
+qgraph(net_nearmiss_change,
        layout = mds_spline$conf,
        edge.labels = TRUE,
        maximum = 0.5,
-       details = TRUE)
-text(-1, -1, paste0("N = ",net_ems_0$nPerson))
-
-qgraph(net_ems_1$graph,
-       layout = mds_spline$conf,
-       edge.labels = TRUE,
-       maximum = 0.5,
-       details = TRUE)
-text(-1, -1, paste0("N = ",net_ems_1$nPerson))
+       details = TRUE,
+       theme = "colorblind")
 
 ```
 
+Direct experience of fire is related to a weak effect on network structure (@tbl-comp-1). Global strength is significantly different, indicating that the overall connectivity has changed between networks. However, network variance is not significantly different. Since the network is dense and non-smallworld, the difference between variance and strength may be due to small changes in many network edges leading to a overall significant change in the sum of edge strength, while leaving individual maximum changes small [see @vanborkulo2022].
+
+Near-miss experiences have a stronger effect on the network structure (@tbl-comp-2). Network variance and global strength are both significantly different, suggesting that a change in overall network structure has occurred. In both cases, the statistic has grown in the network estimated from respondents that have experienced a near miss. In other words: the network seems to be slightly denser in people who have nearly experienced a fire.
+
+For the Fire node, no changes seem to have occurred in the near-miss comparison. However, for individuals who have a direct fire experience, Expected Influence has dropped significantly. This suggests that the connections between Fire and other nodes has grown slightly more negative. Because the network does not show any negative edges (@fig-comp-graphs-2), this change corresponds to a drop in intensity of positive connections. The Fire node also shows marginally significant changes on closeness and strength in the direct experience comparison. The change in strength mirrors that of the EI change, further suggesting that the centrality of Fire has slightly dropped.
+
 # Discussion
 
-To repeat from @sec-hypotheses, we had six hypotheses, grouped into system and node level hypotheses. Both groups of hypotheses state the same:
+We found the following results for our hypotheses (see @sec-hypotheses):
 
--   System level:
+-  System level:
+    -  $H_1^S:$ No support
+    -  $H_2^S:$ Strong support
+-  Node level:
+    -  $H_1^N:$ Partial support
+    -  $H_2^N:$ No support
 
-    -   $H_1^S:$ Experiencing a fire leads to a sparser risk perception network
-    -   $H_2^S:$ Experiencing a near-miss leads to a denser risk perception network
-    -   $H_3^S:$ Working in emergency services leads to a sparser risk perception
+On the system level, we found no support for the hypothesis that a direct experience leads to a sparser risk perception network. Contrary to this, we even found suggestive evidence that a direct experience leads to a *denser* network, in terms of an increase in global strength. However, we found strong support for the hypothesis that an imagined experience leads to a denser network, in terms of increases in both network variance and global strength.
 
--   Node level:
+On the node level, the view is different. Here, we found partial support for the hypothesis that a direct experience leads to a decrease in centrality for the hazard event in question (here, the probability of experiencing a fire), but no support for the hypothesis that an imagined experience leads to an increase in the centrality of the hazard event.
 
-    -   $H_1^N:$ Experiencing a fire leads to a decrease in the centrality of fire in the risk perception network
-    -   $H_2^N:$ Experiencing a near-miss leads to an increase in the centrality of fire in the risk perception network
-    -   $H_3^N:$ Working in emergency services leads to a decrease in the centrality of fire in the risk perception network
+For direct experiences, we thus found that network connections grew slightly stronger overall, but that changes were small across the network. Thus, maximum network variance was not significantly related to a direct experience. In our theoretical frame, this suggests that direct experiences may have omnibus effects that are less attributable to single nodes. At the same time, the centrality of the Fire node was shown to slightly decrease, significantly in expected influence and marginally significantly in strength. This suggests that the experience could be connected to a decrease in relevance of the related risk perception for the overall network, specifically in lowering its connective strength with other nodes.
 
-On the system level, we found no support for $H_1^S$ or $H_3^S$. In both cases, we even found partial support for the opposite direction: for both direct experiences and working in EMS, networks partially have grown more dense than for others.
+Near-miss experiences seem to be related to significant change on the network level, but no change on the node level. The network grew denser, both in terms of maximum vertex variance and overall global strength, but the Fire node did not significantly change centrality on any measure.
 
-However, we found strong support for $H_2^S$, that a near-miss experience leads to a denser risk perception network.
+Previous research has shown divergent results when comparing direct experiences with near-misses: direct experiences have been shown to increase perception of risk, while near-misses have been shown to conversely decrease perception. Our results show a slightly more detailed picture. We find that the directness of the experience might have positive effects on *overall* perception but negative effects on *specific* perception. In other words: the affective system grows slightly stronger upon a hazard experience, but the analytic system takes more control over the individual's estimation of the hazard itself.
 
-*UPDATE 12/5/2023: What does it mean for the node to drop in centrality, viz. the idea that experience lowers System II intensity? Is increased centrality == increased intensity, or is it the other way around?*
-
-On the node level, the situation is very different. Overall, we found very little support for our hypotheses. We found marginal support for $H_1^N$: subjectively experienced probabilities of fire might become less central in the overall network after experiencing a near-miss experience. All other changes were non-significant.
+Near-misses, on the other hand, seem to have a distinct effect on the affective system as a whole, but not on the hazard estimation's relevance within said system. This could be explained with the difference in knowledge: because a direct experience gives knowledge about the hazard in question, it weakens the affective system on its part, while a near-miss does not. Noteworthy, however, is that both experiences still seem to affect the system as a whole, suggesting that the affective system still activates, regardless of the intimacy of the experience.
 
 # References {#sec-references}
 

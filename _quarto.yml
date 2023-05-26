@@ -11,7 +11,10 @@ format:
   pdf:
     documentclass: article
     number-sections: true
-  html: default
+    fig-dpi: 300
+  html:
+    fig-dpi: 300
+    number-sections: true
 
 bibliography: _FORMATTING/references.bib
 csl: _FORMATTING/apa.csl
