@@ -28,7 +28,7 @@ rm(list=ls())
 resetpar <- par(no.readonly = TRUE)
 # Setup article work directories and libraries
 workdir <- "C:/Users/olive/RPROJS/papers/affectiveriskperceptionnetworks"
-packages <- c("tidyverse", "naniar", "knitr", "ggstatsplot", "bootnet", "ppcor", "smacof", "qgraph", "NetworkComparisonTest")
+packages <- c("tidyverse", "naniar", "knitr", "ggstatsplot", "bootnet", "ppcor", "smacof", "qgraph", "NetworkComparisonTest", "mgm")
 lapply(packages, library, character.only=TRUE)
 setwd(workdir)
 
@@ -275,7 +275,7 @@ ggplot(subsdata) + geom_bar(aes(x = Near.Miss))
 
 ## Methods {#sec-methods}
 
-All analyses were completed in RStudio version 2023.03.0 build 386 [@positteam2023]. Data were processed using the `tidyverse` [@wickham2019] and `naniar` [@tierney2023] packages. Plots and graphs were generated in `ggplot2` [@wickham2016], including the `ggstatsplot` [@patil2021] extension package. MDS rotations were done in `smacof` [@mair2022] and partial correlations with `ppcor` [@kim2015]. Network comparison was conducted in `NetworkComparisonTest` [@vanborkulo2022]. Network graphs and related plotting and statistics were conducted in `bootnet` [@epskamp2018b] and `qgraph` [@epskamp2012]. The article was written in RMarkdown and compiled using the `knitr` [@xie2014; @xie2015; @xie2023] package for reproducibility.
+All analyses were completed in RStudio version 2023.03.0 build 386 [@positteam2023]. Data were processed using the `tidyverse` [@wickham2019] and `naniar` [@tierney2023] packages. Plots and graphs were generated in `ggplot2` [@wickham2016], including the `ggstatsplot` [@patil2021] extension package. MDS rotations were done in `smacof` [@mair2022] and partial correlations with `ppcor` [@kim2015]. Network comparison was conducted in `NetworkComparisonTest` [@vanborkulo2022]. Network graphs and related plotting and statistics were conducted in `bootnet` [@epskamp2018b], `mgm` [@haslbeck2020], and `qgraph` [@epskamp2012]. The article was written in RMarkdown and compiled using the `knitr` [@xie2014; @xie2015; @xie2023] package for reproducibility.
 
 We started by fitting a model for the graphical representation of networks. We modelled a partial correlation network of the risk perception variables using the multidimensional scaling (MDS) technique [@jones2018]. We thus retrieved Shepard curves for each MDS type and chose model type by balancing parsimony with increasing fit (reduction of the stress factor, see [@jones2018]). This model was only used to construct the MDS model.
 
@@ -286,6 +286,8 @@ For robustness checks, we use the case-dropping model and retrieve *correlation 
 Previous research suggests that, when interpreting differences between centralities (e.g., if one risk perception is more central to the network than another), the centrality stability coefficient should preferably be above 0.5, with higher equalling a more stable centrality measure [@epskamp2018b; @fried2022].
 
 To compare between groups, we estimated group-wise Gaussian graphical models and used the network comparison test (NCT) as outlined by Fried, Epskamp, Veerman and van Borkulo [-@fried2022]. The NCT works by calculating a test statistic of choice, constructing a distribution of the statistic using random rearranging sub-sampling of the network data, and comparing the simulated statistic under a null hypothesis to the observed statistic [@fried2022, pp. 143-144]. We retrieve two levels of tests: *omnibus* tests measuring differences in global strength and network variance, and *specific* tests measuring differences in strength, closeness, betweenness, and expected influence of the "Fire" node in either group.
+
+**Add text on Mixed Gaussian Models with moderation analysis!**
 
 Parts of this manuscript have been written using the large language model (LLM) Perplexity.AI [@perplexityai2023]. The LLM has been used to support literature review. No data processing or data analysis has been conducted using the LLM.
 
@@ -340,7 +342,9 @@ plot(mds_spline,
      sub = paste0("Stress = ", round(mds_spline$stress, 2)))
 ```
 
-We then retrieved a robust model of the graph using the `bootnet` package [@epskamp2018b]. The model uses the `EBICglasso` algorithm, which searches for the model that locally minimises the extended Bayesian Information Criterion [@epskamp2018b; @foygel2010]. The estimation is done using Spearman correlations because our data are expected non-normally distributed. While polychoric correlations would be possible, the small sample sizes in sub-population comparison may result in a non-positive definite correlation matrix, which disables analysis.^[To test equivalency, we retrieved a bootstrapped network using polychoric correlations with the `cor_auto` method in `bootnet`, and correlated the resulting network with the network retrieved using Spearman correlations. The resulting Pearson correlation was 0.992. Thus, under our conditions, the two methods produce virtually the same results, and we opt for the simpler Spearman correlations due to calculation efficiency.] We retrieved both non-parametric and case-dropping networks for analysis.
+We then retrieved a robust model of the graph using the `bootnet` package [@epskamp2018b]. The model uses the `EBICglasso` algorithm, which searches for the model that locally minimises the extended Bayesian Information Criterion [@epskamp2018b; @foygel2010]. The estimation is done using Spearman correlations because our data are expected non-normally distributed. While polychoric correlations would be possible, the small sample sizes in sub-population comparison may result in a non-positive definite correlation matrix, which disables analysis.[^2] We retrieved both non-parametric and case-dropping networks for analysis.
+
+[^2]: To test equivalency, we retrieved a bootstrapped network using polychoric correlations with the `cor_auto` method in `bootnet`, and correlated the resulting network with the network retrieved using Spearman correlations. The resulting Pearson correlation was 0.992. Thus, under our conditions, the two methods produce virtually the same results, and we opt for the simpler Spearman correlations due to calculation efficiency.
 
 ```{r}
 #| label: bootstraps
@@ -628,7 +632,7 @@ comp_nearmiss <- NCT(
 
 ::: {#tbl-networkcomps layout-nrow="2"}
 | Test               | Statistic                                                      | Significance                                      |
-|------------------|------------------------------|------------------------|
+|-------------------|-----------------------------|------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_direct$nwinv.real, 2)`            | $p =$ `r round(comp_direct$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_direct$glstrinv.real, 2)`     | $p =$ `r round(comp_direct$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_direct$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_direct$diffcen.pval[[1]], 4)` |
@@ -639,7 +643,7 @@ comp_nearmiss <- NCT(
 : Direct Experience of Fire (`r length(comp_direct$glstrinv.perm)` permutations) {#tbl-comp-1}
 
 | Test               | Statistic                                                        | Significance                                        |
-|------------------|------------------------------|------------------------|
+|-------------------|-----------------------------|------------------------|
 | Network variance   | $\Delta_{O} =$ `r round(comp_nearmiss$nwinv.real, 2)`            | $p =$ `r round(comp_nearmiss$nwinv.pval, 4)`        |
 | Global strength    | $\Delta_{S}^{g} =$ `r round(comp_nearmiss$glstrinv.real, 2)`     | $p =$ `r round(comp_nearmiss$glstrinv.pval, 4)`     |
 | Closeness          | $\Delta_{C} =$ `r round(comp_nearmiss$diffcen.real[[1]], 2)`     | $p =$ `r round(comp_nearmiss$diffcen.pval[[1]], 4)` |
@@ -721,16 +725,100 @@ Near-miss experiences have a stronger effect on the network structure (@tbl-comp
 
 For the Fire node, no changes seem to have occurred in the near-miss comparison. However, for individuals who have a direct fire experience, Expected Influence has dropped significantly. This suggests that the connections between Fire and other nodes has grown slightly more negative. Because the network does not show any negative edges (@fig-comp-graphs-2), this change corresponds to a drop in intensity of positive connections. The Fire node also shows marginally significant changes on closeness and strength in the direct experience comparison. The change in strength mirrors that of the EI change, further suggesting that the centrality of Fire has slightly dropped.
 
+# WIP: Mixed Gaussian model with mediation analysis
+
+We then estimated a moderated Mixed Gaussian Model (MGM) following Haslbeck's [-@haslbeck2022] mediation analysis framework. We created a four-level categorical variable representing different modes of experience of fire: either an individual has not experienced a fire (0), has experienced a near-miss but not a direct fire (1), has experienced a direct fire but not a near-miss (2), or has experienced both a direct fire and a near-miss situation (3).
+
+We then fitted an MGM using 10-fold cross-validation and the OR rule for regression estimate combination.
+
+\[TESTING RIGHT NOW WITH TWO CONTROL VARIABLES INSTEAD OF ONE, SEPARATELY\].
+
+```{r}
+#| label: mgm-estimation
+#| fig-cap: "Mixed Gaussian graphical models with moderation analysis, conditioned by categories."
+#| sub-cap:
+#| -  "No direct experience"
+#| -  "Direct experience"
+#| -  "No near-miss experinece"
+#| -  "Near-miss experience"
+#| layout: [[1,1],[1,1]]
+#| message: false
+#| results: false
+
+mgmnet <- data %>%
+  na.omit() %>%
+  mgm(
+    type = rep("c", 16),
+    level = c(rep(4, 14), c(2, 2)),
+    moderators = c(15, 16),
+    lambdaSel = "CV",
+    lambdaFolds = 10,
+    ruleReg = "OR",
+    verbatim = TRUE,
+    binarySign = TRUE
+  )
+
+mgm_cond_1 <- list()
+for (g in 1:2) {
+  mgm_cond_1[[g]] <- condition(
+    mgmnet,
+    values = list("15" = g-1)
+  )
+}
+
+mgm_cond_2 <- list()
+for (g in 1:2) {
+  mgm_cond_2[[g]] <- condition(
+    mgmnet,
+    values = list("16" = g-1)
+  )
+}
+
+qgraph(
+  input = mgm_cond_1[[1]]$pairwise$wadj,
+  edge.color = mgm_cond_1[[1]]$pairwise$edgecolor,
+  layout = "circle",
+  maximum = 0.5,
+  edge.labels = TRUE
+)
+
+qgraph(
+  input = mgm_cond_1[[2]]$pairwise$wadj,
+  edge.color = mgm_cond_1[[2]]$pairwise$edgecolor,
+  layout = "circle",
+  maximum = 0.5,
+  edge.labels = TRUE
+)
+
+qgraph(
+  input = mgm_cond_2[[1]]$pairwise$wadj,
+  edge.color = mgm_cond_2[[1]]$pairwise$edgecolor,
+  layout = "circle",
+  maximum = 0.5,
+  edge.labels = TRUE
+)
+
+qgraph(
+  input = mgm_cond_2[[2]]$pairwise$wadj,
+  edge.color = mgm_cond_2[[2]]$pairwise$edgecolor,
+  layout = "circle",
+  maximum = 0.5,
+  edge.labels = TRUE
+)
+
+
+```
+
 # Discussion
 
 We found the following results for our hypotheses (see @sec-hypotheses):
 
--  System level:
-    -  $H_1^S:$ No support
-    -  $H_2^S:$ Strong support
--  Node level:
-    -  $H_1^N:$ Partial support
-    -  $H_2^N:$ No support
+-   System level:
+    -   $H_1^S:$ No support
+    -   $H_2^S:$ Strong support
+-   Node level:
+    -   $H_1^N:$ Partial support
+    -   $H_2^N:$ No support
 
 On the system level, we found no support for the hypothesis that a direct experience leads to a sparser risk perception network. Contrary to this, we even found suggestive evidence that a direct experience leads to a *denser* network, in terms of an increase in global strength. However, we found strong support for the hypothesis that an imagined experience leads to a denser network, in terms of increases in both network variance and global strength.
 
